@@ -41,8 +41,8 @@ public class Pet {
     private Admin admin;*/
 
     @ManyToOne
-    @JoinColumn(name="vetid")
-    private Vet vet;
+    @JoinColumn(name="vetid", nullable = true)
+    private Vet vett;
 
     @ManyToOne
     @JoinColumn(name = "shelterid")
@@ -66,7 +66,7 @@ public class Pet {
     public Pet(Citizen citizen,/*Admin admin,*/Vet vet,MedicalHistory medicalHistory,AdoptionRequest adoptionRequest,ApprovalStatus status){
         this.citizen=citizen;
         //this.admin=admin;
-        this.vet=vet;
+        this.vett=vet;
         this.medicalHistory=medicalHistory;
         this.adoptionRequest=adoptionRequest;
         this.status=status;
@@ -185,11 +185,11 @@ public class Pet {
     }
 
     public Vet getVet() {
-        return vet;
+        return vett;
     }
 
     public void setVet(Vet vet) {
-        this.vet = vet;
+        this.vett = vet;
     }
 
     public void setShelter(Shelter shelter) {

@@ -27,6 +27,8 @@ public class PetController {
 
     @PostMapping
     public void addPet(@RequestBody Pet pet) {
+        System.out.println(pet.getVet());
+
         petService.savePet(pet);
     }
 

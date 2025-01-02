@@ -11,8 +11,8 @@ public class Vet extends User {
     @Column
     private long id;*/
 
-    @OneToMany
-    @JoinColumn(name="petid")
+    @OneToMany(mappedBy = "vett")
+    //@JoinColumn(name="petid")
     private List<Pet> pet;
 
     /*@OneToMany

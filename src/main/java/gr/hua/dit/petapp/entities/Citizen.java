@@ -10,8 +10,7 @@ public class Citizen extends User{
     @OneToMany
     @JoinColumn(name = "adoptionrequestid")
     private List<AdoptionRequest> adoptionRequestList;
-    @OneToMany
-    @JoinColumn(name = "petid")
+    @OneToMany(mappedBy = "citizen")
     private List<Pet> pet;
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
