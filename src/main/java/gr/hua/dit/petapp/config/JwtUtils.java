@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.config;
+package gr.hua.dit.petapp.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -48,7 +48,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     public String getUserNameFromJwtToken(String token) {
-        Claims claims = Jwts.parserBuilder()
+        Claims claims = Jwts.parser()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)
@@ -58,9 +58,7 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String authToken) throws SignatureException {
         try {
-            Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(authToken);
-
-
+            Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException e) {
             logger.error("token {}", authToken);
@@ -75,4 +73,4 @@ public class JwtUtils {
 
         return false;
     }
-}*/
+}

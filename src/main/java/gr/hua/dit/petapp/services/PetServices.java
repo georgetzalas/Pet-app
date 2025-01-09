@@ -1,7 +1,13 @@
 package gr.hua.dit.petapp.services;
 
+import gr.hua.dit.petapp.entities.Citizen;
 import gr.hua.dit.petapp.entities.Pet;
+import gr.hua.dit.petapp.entities.Shelter;
+import gr.hua.dit.petapp.entities.Vet;
+import gr.hua.dit.petapp.repositories.CitizenRepository;
 import gr.hua.dit.petapp.repositories.PetRepository;
+import gr.hua.dit.petapp.repositories.ShelterRepository;
+import gr.hua.dit.petapp.repositories.VetRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +17,15 @@ import java.util.List;
 @Service
 public class PetServices {
     private PetRepository petRepository;
+    private ShelterRepository shelterRepository;
+    private CitizenRepository citizenRepository;
+    private VetRepository vetRepository;
 
-    public PetServices(PetRepository petRepository) {
+    public PetServices(PetRepository petRepository, ShelterRepository shelterRepository, CitizenRepository citizenRepository, VetRepository vetRepository) {
         this.petRepository = petRepository;
+        this.shelterRepository = shelterRepository;
+        this.citizenRepository = citizenRepository;
+        this.vetRepository = vetRepository;
     }
 
     @Transactional
@@ -28,6 +40,14 @@ public class PetServices {
 
     @Transactional
     public void savePet(Pet pet) {
+        Citizen citizen = citizenRepository.findById((pet.getCitizen().getId().intValue())).get();
+        Vet vet = vetRepository.findById((pet.getVet().getId().intValue())).get();
+        Shelter shelter = shelterRepository.findById((pet.getShelter().getId().intValue())).get();
+
+        pet.setCitizen(citizen);
+        pet.setVet(vet);
+        pet.setShelter(shelter);
+
         petRepository.save(pet);
     }
 

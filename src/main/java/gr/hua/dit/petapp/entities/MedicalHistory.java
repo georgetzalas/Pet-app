@@ -1,13 +1,15 @@
 package gr.hua.dit.petapp.entities;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class MedicalHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long Historyid;
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "vetid")
     private Vet vet;
@@ -15,7 +17,6 @@ public class MedicalHistory {
     @OneToOne
     @JoinColumn(name = "petid")
     private Pet pet;
-
 
     public MedicalHistory() {
     }
@@ -25,12 +26,12 @@ public class MedicalHistory {
         this.pet = pet;
     }
 
-    public Long getHistoryid() {
-        return Historyid;
+    public Long getID() {
+        return id;
     }
 
-    public void setHistoryid(Long historyid) {
-        Historyid = historyid;
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public Vet getVet() {
@@ -47,5 +48,14 @@ public class MedicalHistory {
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    @Override
+    public String toString() {
+        return "MedicalHistory{" +
+                "id=" + id +
+                ", vet=" + vet +
+                ", pet=" + pet +
+                '}';
     }
 }

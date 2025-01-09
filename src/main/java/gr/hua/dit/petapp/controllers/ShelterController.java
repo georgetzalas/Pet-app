@@ -5,11 +5,18 @@ import gr.hua.dit.petapp.services.ShelterService;
 import gr.hua.dit.petapp.exception.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/shelters")
 public class ShelterController {
     private ShelterService shelterService;
+
+    public ShelterController(ShelterService shelterService) {
+        this.shelterService = shelterService;
+    }
 
     @PostMapping
     public ResponseEntity<String> addShelter(@RequestBody Shelter shelter) {
@@ -20,4 +27,11 @@ public class ShelterController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping
+    public List<Shelter> getShelters()
+    {
+        return shelterService.getShelters();
+    }
+
 }

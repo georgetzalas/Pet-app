@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.controllers;
+package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.User;
 import gr.hua.dit.petapp.payload.request.LoginRequest;
@@ -146,4 +146,4 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-}*/
+}

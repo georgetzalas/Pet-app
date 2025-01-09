@@ -36,6 +36,9 @@ public class MedicalHistoryService
     @Transactional
     public void saveMedicalHistory(MedicalHistory medicalHistory)
     {
+        Pet pet = medicalHistory.getPet();
+        System.out.println(pet.toString());
+        medicalHistory.setPet(pet);
         medicalHistoryRepository.save(medicalHistory);
     }
 

@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShelterService {
     @Autowired
@@ -50,5 +52,11 @@ public class ShelterService {
             throw new IllegalArgumentException("A shelter with this email already exists.");
         }
         shelterRepository.save(shelter);
+    }
+
+    @Transactional
+    public List<Shelter> getShelters()
+    {
+        return shelterRepository.findAll();
     }
 }

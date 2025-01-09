@@ -1,6 +1,6 @@
-/*package gr.hua.dit.petapp.payload.request;
+package gr.hua.dit.petapp.payload.request;
 
-import gr.hua.dit.petapp.validation.RoleBasedField;
+//import gr.hua.dit.petapp.validation.RoleBasedField;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -27,10 +27,10 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    @RoleBasedField(roleField = "role", targetField = "surname", validRoles = {"user", "vet","admin"}, message = "Surname is required for user,vet and admin roles")
+    //@RoleBasedField(roleField = "role", targetField = "surname", validRoles = {"user", "vet","admin"}, message = "Surname is required for user,vet and admin roles")
     private String surname;
 
-    @RoleBasedField(roleField = "role", targetField = "region", validRoles = {"shelter"}, message = "Region is required for shelter role")
+    //@RoleBasedField(roleField = "role", targetField = "region", validRoles = {"shelter"}, message = "Region is required for shelter role")
     private String region;
 
     public String getUsername() {
@@ -88,5 +88,5 @@ public class SignupRequest {
     public void setRegion(String region) {
         this.region = region;
     }
-}*/
+}
 

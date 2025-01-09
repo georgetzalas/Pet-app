@@ -1,14 +1,17 @@
 package gr.hua.dit.petapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long petid;
+    private Long id;
     @Column
     private String name;
     @Column
@@ -29,32 +32,31 @@ public class Pet {
     private String breed;
     @Column
     private String sex;
-    @Column
-    private String Shelter;
+    //@Column
+    //private String Shelter;
 
-    @ManyToOne
-    @JoinColumn(name="citizenid")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "citizenid")
     private Citizen citizen;
 
-    /*@ManyToOne
-    @JoinColumn(name="adminid")
-    private Admin admin;*/
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="vetid")
+    private Vet vet;
 
-    @ManyToOne
-    @JoinColumn(name="vetid", nullable = true)
-    private Vet vett;
-
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "shelterid")
     private Shelter shelter;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="historyid")
     private MedicalHistory medicalHistory;
 
-    @OneToOne
+    /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="requestid")
-    private AdoptionRequest adoptionRequest;
+    private AdoptionRequest adoptionRequest;*/
 
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
@@ -63,21 +65,20 @@ public class Pet {
 
     }
 
-    public Pet(Citizen citizen,/*Admin admin,*/Vet vet,MedicalHistory medicalHistory,AdoptionRequest adoptionRequest,ApprovalStatus status){
-        this.citizen=citizen;
-        //this.admin=admin;
-        this.vett=vet;
-        this.medicalHistory=medicalHistory;
-        this.adoptionRequest=adoptionRequest;
-        this.status=status;
+    public Pet(Citizen citizen,Vet vet,MedicalHistory medicalHistory, /*AdoptionRequest adoptionRequest,*/ApprovalStatus status){
+        this.citizen = citizen;
+        this.vet = vet;
+        this.medicalHistory = medicalHistory;
+        //this.adoptionRequest = adoptionRequest;
+        this.status = status;
     }
 
-    public Long getPetid() {
-        return petid;
+    public Long getID() {
+        return id;
     }
 
-    public void setPetid(Long petid) {
-        this.petid = petid;
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -160,13 +161,13 @@ public class Pet {
         this.sex = sex;
     }
 
-    public String getShelter() {
+    /*public String getShelter() {
         return Shelter;
     }
 
     public void setShelter(String shelter) {
         Shelter = shelter;
-    }
+    }*/
 
     public ApprovalStatus getStatus() {
         return status;
@@ -185,15 +186,19 @@ public class Pet {
     }
 
     public Vet getVet() {
-        return vett;
+        return vet;
     }
 
     public void setVet(Vet vet) {
-        this.vett = vet;
+        this.vet = vet;
     }
 
     public void setShelter(Shelter shelter) {
         this.shelter = shelter;
+    }
+
+    public Shelter getShelter() {
+        return shelter;
     }
 
     public MedicalHistory getMedicalHistory() {
@@ -204,11 +209,34 @@ public class Pet {
         this.medicalHistory = medicalHistory;
     }
 
-    public AdoptionRequest getAdoptionRequest() {
+    /*public AdoptionRequest getAdoptionRequest() {
         return adoptionRequest;
     }
 
     public void setAdoptionRequest(AdoptionRequest adoptionRequest) {
         this.adoptionRequest = adoptionRequest;
+    }*/
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", healthStatus=" + healthStatus +
+                ", adoptionStatus='" + adoptionStatus + '\'' +
+                ", age=" + age +
+                ", picture='" + picture + '\'' +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", breed='" + breed + '\'' +
+                ", sex='" + sex + '\'' +
+                //", Shelter='" + Shelter + '\'' +
+                ", citizen=" + citizen +
+                ", vet=" + vet +
+                ", shelter=" + shelter +
+                ", medicalHistory=" + medicalHistory +
+                ", status=" + status +
+                '}';
     }
 }

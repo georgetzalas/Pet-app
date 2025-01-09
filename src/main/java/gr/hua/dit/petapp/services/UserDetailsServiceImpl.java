@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.services;
+package gr.hua.dit.petapp.services;
 
 import gr.hua.dit.petapp.entities.Role;
 import gr.hua.dit.petapp.entities.User;
@@ -45,8 +45,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
-
-
     @Transactional
     public Long saveUser(User user) {
         String passwd= user.getPassword();
@@ -82,5 +80,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public void updateOrInsertRole(Role role) {
         roleRepository.updateOrInsert(role);
     }
-
-}*/
+}

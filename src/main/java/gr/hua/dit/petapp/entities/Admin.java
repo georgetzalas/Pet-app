@@ -1,12 +1,11 @@
 package gr.hua.dit.petapp.entities;
-import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
 public class Admin extends User {
-    @OneToMany
+
+    /*@OneToMany
     @JoinColumn(name="petid")
     private List<Pet> pet;
 
@@ -14,22 +13,18 @@ public class Admin extends User {
     @JoinColumn(name="shelterid")
     private List<Shelter> shelters;
 
-    //@OneToMany(mappedBy = "admin")
     @OneToMany
     @JoinColumn(name = "adoptionrequestid")
-    private List<AdoptionRequest> adoptionRequest;
+    private List<AdoptionRequest> adoptionRequest;*/
 
     @Column
     private String surname;
 
     public Admin(){}
 
-    public Admin(String surname,List<Pet> pet,List<Shelter> shelters,List<AdoptionRequest> adoptionRequest)
+    public Admin(String surname)
     {
         this.surname = surname;
-        this.pet=pet;
-        this.shelters=shelters;
-        this.adoptionRequest=adoptionRequest;
     }
 
     public String getSurname() {
@@ -40,7 +35,7 @@ public class Admin extends User {
         this.surname = surname;
     }
 
-    public List<Pet> getPet() {
+    /*public List<Pet> getPet() {
         return pet;
     }
 
@@ -62,5 +57,5 @@ public class Admin extends User {
 
     public void setShelters(List<Shelter> shelters) {
         this.shelters = shelters;
-    }
+    }*/
 }

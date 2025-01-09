@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.payload.response;
+package gr.hua.dit.petapp.payload.response;
 
 public class MessageResponse {
     private String message;
@@ -13,6 +13,5 @@ public class MessageResponse {
 
     public void setMessage(String message) {
         this.message = message;
-        this.message = message;
     }
-}*/
+}

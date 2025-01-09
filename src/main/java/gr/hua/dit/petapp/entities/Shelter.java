@@ -1,35 +1,29 @@
 package gr.hua.dit.petapp.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Shelter extends User{
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private long id;*/
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status = AccountStatus.PENDING;
 
     @OneToMany(mappedBy = "shelter")
     private List<Pet> pet;
 
-    /*@ManyToOne
-    @JoinColumn(name="Adminid")
-    private Admin admin;*/
-
+    @Column
     private String Region;
-
-    @Enumerated(EnumType.STRING)
-    private AccountStatus status = AccountStatus.PENDING;
 
     public Shelter(){
 
     }
 
-    public Shelter(List<Pet> pet,/*Admin admin, */String Region,AccountStatus status) {
+    public Shelter(List<Pet> pet, String Region,AccountStatus status) {
         this.pet = pet;
-        //this.admin = admin;
         this.Region = Region;
         this.status = status;
     }

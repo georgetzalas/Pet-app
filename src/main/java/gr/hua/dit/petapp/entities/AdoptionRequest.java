@@ -2,23 +2,20 @@ package gr.hua.dit.petapp.entities;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 public class AdoptionRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "petid")
     private Pet pet;
+
     @ManyToOne
     @JoinColumn(name = "citizenid")
     private Citizen citizen;
 
-    /*@ManyToOne
-    @JoinColumn(name="adminid")
-    private Admin admin;*/
     @Column
     private String status;
 

@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.services;
+package gr.hua.dit.petapp.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -107,4 +107,4 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
     }
-}*/
+}

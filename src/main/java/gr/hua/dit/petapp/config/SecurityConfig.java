@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.config;
+package gr.hua.dit.petapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +52,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**","/actuator/health/**").permitAll()
+                        //.requestMatchers("/api/pets").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v2/api-docs/**",
@@ -67,6 +68,4 @@ public class SecurityConfig {
         return http.build();
 
     }
-
-
-}*/
+}

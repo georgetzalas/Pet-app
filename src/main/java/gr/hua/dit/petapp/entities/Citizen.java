@@ -1,17 +1,22 @@
 package gr.hua.dit.petapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Citizen extends User{
     @Column
     private String surname;
-    @OneToMany
-    @JoinColumn(name = "adoptionrequestid")
+
+    @OneToMany(mappedBy = "citizen")
     private List<AdoptionRequest> adoptionRequestList;
+
     @OneToMany(mappedBy = "citizen")
     private List<Pet> pet;
+
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 

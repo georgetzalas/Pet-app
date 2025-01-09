@@ -2,13 +2,12 @@ package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.MedicalHistory;
 import gr.hua.dit.petapp.services.MedicalHistoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/medical_history")
 public class MedicalHistoryController
 {
     private final MedicalHistoryService medicalHistoryService;
@@ -36,5 +35,11 @@ public class MedicalHistoryController
     public void addMedicalHistory(@PathVariable Long id, @RequestBody MedicalHistory medicalHistory)
     {
         medicalHistoryService.saveMedicalHistory(id, medicalHistory);
+    }
+
+    @PostMapping
+    public void addMedicalHistory(@RequestBody MedicalHistory medicalHistory)
+    {
+        medicalHistoryService.saveMedicalHistory(medicalHistory);
     }
 }

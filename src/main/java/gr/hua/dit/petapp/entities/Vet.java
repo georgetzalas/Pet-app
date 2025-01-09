@@ -3,16 +3,14 @@ package gr.hua.dit.petapp.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-@Entity
-public class Vet extends User {
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private long id;*/
 
-    @OneToMany(mappedBy = "vett")
-    //@JoinColumn(name="petid")
+@Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+public class Vet extends User {
+    @OneToMany(mappedBy = "vet")
     private List<Pet> pet;
 
     /*@OneToMany
@@ -20,12 +18,12 @@ public class Vet extends User {
     private List<Admin> admin;*/
 
     @OneToMany(mappedBy = "vet")
-    //@JoinColumn(name="historyid")
     private List<MedicalHistory> medicalHistory;
 
-    @OneToMany
+    /*@OneToMany
     @JoinColumn(name="requestid")
-    private List<AdoptionRequest> adoptionRequest;
+    private List<AdoptionRequest> adoptionRequest;*/
+
     @Column
     private String Surname;
 
@@ -33,10 +31,10 @@ public class Vet extends User {
 
     }
 
-    public Vet(List<Pet> pet,/*List<Admin> admin,*/List<MedicalHistory> medicalHistory,List<AdoptionRequest> adoptionRequest){
+    public Vet(List<Pet> pet,/*List<Admin> admin,*/ List<MedicalHistory> medicalHistory/*,List<AdoptionRequest> adoptionRequest*/){
         this.pet=pet;
         this.medicalHistory=medicalHistory;
-        this.adoptionRequest=adoptionRequest;
+        //this.adoptionRequest=adoptionRequest;
     }
 
     public Vet(String Surname){
@@ -79,11 +77,11 @@ public class Vet extends User {
         this.medicalHistory = medicalHistory;
     }
 
-    public List<AdoptionRequest> getAdoptionRequest() {
+    /*public List<AdoptionRequest> getAdoptionRequest() {
         return adoptionRequest;
     }
 
     public void setAdoptionRequest(List<AdoptionRequest> adoptionRequest) {
         this.adoptionRequest = adoptionRequest;
-    }
+    }*/
 }

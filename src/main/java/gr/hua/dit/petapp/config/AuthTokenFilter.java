@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.config;
+package gr.hua.dit.petapp.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -60,4 +60,4 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         return null;
     }
-}*/
+}

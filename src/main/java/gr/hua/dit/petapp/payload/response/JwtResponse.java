@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petapp.payload.response;
+package gr.hua.dit.petapp.payload.response;
 
 import java.util.List;
 
@@ -94,4 +94,4 @@ public class JwtResponse {
     public void setRegion(String region) {
         this.region = region;
     }
-}*/
+}
