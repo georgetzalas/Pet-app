@@ -5,6 +5,7 @@ import gr.hua.dit.petapp.entities.*;
 import gr.hua.dit.petapp.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,6 +58,7 @@ public class AdminController {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }*/
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/checkEmail")
     public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
@@ -108,21 +110,23 @@ public class AdminController {
 
         return ResponseEntity.ok(adoptionRequests);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     // Get list of pets waiting for approval
     @GetMapping("/pending-pets")
     public ResponseEntity<List<Pet>> getPendingPets() {
         List<Pet> pendingPets = adminService.getPendingPets();
         return ResponseEntity.ok(pendingPets);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     // Approve a specific pet
     @PutMapping("/approve-pet/{petId}")
     public ResponseEntity<String> approvePet(@PathVariable Long petId) {
         adminService.approvePet(petId);
         return ResponseEntity.ok("Pet approved successfully.");
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     // Reject a specific pet
     @PutMapping("/reject-pet/{petId}")
     public ResponseEntity<String> rejectPet(@PathVariable Long petId) {

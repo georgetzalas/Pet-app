@@ -6,6 +6,7 @@ import gr.hua.dit.petapp.entities.Citizen;
 import gr.hua.dit.petapp.services.CitizenServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,21 +20,25 @@ public class CitizenController {
     public CitizenController(CitizenServices citizenService) {
         this.citizenService = citizenService;
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Citizen> getAllCitizens() {
         return citizenService.getAllCitizens();
     }
+
     @PreAuthorize("hasRole('VET') or hasRole('ADMIN') or hasRole('SHELTER')")
     @GetMapping("/{id}")
     public Citizen getCitizenById(@PathVariable Integer id) {
         return citizenService.getCitizenById(id);
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteCitizen(@PathVariable Integer id) {
         citizenService.deleteCitizen(id);
     }
+
     @PreAuthorize("hasRole('CITIZEN')")
     @PostMapping("/sendVisitRequest")
     public String sendVisitRequest(@RequestParam String citizenName, @RequestParam String shelterEmail) {

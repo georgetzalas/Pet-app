@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.AdoptionRequest;
 import gr.hua.dit.petapp.services.AdoptionRequestService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

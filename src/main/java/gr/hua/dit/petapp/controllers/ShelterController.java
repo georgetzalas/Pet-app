@@ -5,6 +5,7 @@ import gr.hua.dit.petapp.services.ShelterService;
 import gr.hua.dit.petapp.exception.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

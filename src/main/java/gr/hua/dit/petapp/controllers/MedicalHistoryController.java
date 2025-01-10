@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.MedicalHistory;
 import gr.hua.dit.petapp.services.MedicalHistoryService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
