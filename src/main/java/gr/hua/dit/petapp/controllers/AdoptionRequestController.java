@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.AdoptionRequest;
 import gr.hua.dit.petapp.services.AdoptionRequestService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class AdoptionRequestController
         this.adoptionRequestService = adoptionRequestService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     @GetMapping
     public List<AdoptionRequest> showAdoptionRequests()
     {
@@ -24,6 +26,7 @@ public class AdoptionRequestController
         return adoptionRequests;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     @GetMapping("/{id}")
     public AdoptionRequest showAdoptionRequest(@PathVariable Integer id)
     {
@@ -31,12 +34,14 @@ public class AdoptionRequestController
         return adoptionRequest;
     }
 
+    @PreAuthorize("hasRole('CITIZEN')")
     @PostMapping
     public void addAdoptionRequest(@RequestBody AdoptionRequest adoptionRequest)
     {
         adoptionRequestService.saveAdoptionRequest(adoptionRequest);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteAdoptionRequest(@PathVariable Integer id)
     {
