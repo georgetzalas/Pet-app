@@ -19,27 +19,28 @@ public class CitizenController {
     public CitizenController(CitizenServices citizenService) {
         this.citizenService = citizenService;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Citizen> getAllCitizens() {
         return citizenService.getAllCitizens();
     }
-
+    @PreAuthorize("hasRole('VET') or hasRole('ADMIN') or hasRole('SHELTER')")
     @GetMapping("/{id}")
     public Citizen getCitizenById(@PathVariable Integer id) {
         return citizenService.getCitizenById(id);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteCitizen(@PathVariable Integer id) {
         citizenService.deleteCitizen(id);
     }
+    @PreAuthorize("hasRole('CITIZEN')")
     @PostMapping("/sendVisitRequest")
     public String sendVisitRequest(@RequestParam String citizenName, @RequestParam String shelterEmail) {
         //emailService.sendVisitRequestEmail(citizenName, shelterEmail);
         return "Το email εστάλη επιτυχώς στο καταφύγιο: " + shelterEmail;
     }
-
+    @PreAuthorize("hasRole('CITIZEN')")
     @PostMapping
     public ResponseEntity<String> addCitizen(@RequestBody Citizen citizen) {
         try {

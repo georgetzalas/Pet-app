@@ -18,6 +18,7 @@ public class ShelterController {
         this.shelterService = shelterService;
     }
 
+    @PreAuthorize("hasRole('SHELTER')")
     @PostMapping
     public ResponseEntity<String> addShelter(@RequestBody Shelter shelter) {
         try {
@@ -27,7 +28,7 @@ public class ShelterController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CITIZEN')")
     @GetMapping
     public List<Shelter> getShelters()
     {

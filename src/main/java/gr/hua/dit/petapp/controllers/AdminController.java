@@ -57,32 +57,33 @@ public class AdminController {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }*/
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/checkEmail")
     public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
         boolean exists = adminService.emailExists(email);
         return ResponseEntity.ok(exists);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{userType}/{id}/approve")
     public ResponseEntity<String> approveAccount(@PathVariable String userType, @PathVariable Integer id) {
         adminService.approveAccount(userType, id);
         return ResponseEntity.ok("Account approved successfully.");
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{userType}/{id}/reject")
     public ResponseEntity<String> rejectAccount(@PathVariable String userType, @PathVariable Integer id,
                                                 @RequestParam(required = false) String remarks) {
         adminService.rejectAccount(userType, id, remarks);
         return ResponseEntity.ok("Account rejected successfully.");
     }
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to fetch all accounts
     @GetMapping("/accounts")
     public ResponseEntity<List<Map<String, Object>>> getAllAccounts() {
         List<Map<String, Object>> accounts = adminService.getAllAccounts();
         return ResponseEntity.ok(accounts);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to delete an account by email
     @DeleteMapping("/account/delete")
     public ResponseEntity<?> deleteAccount(@RequestParam String email) {
@@ -93,6 +94,7 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to filter adoption requests by status
     @GetMapping("/adoption-requests")
     public ResponseEntity<List<AdoptionRequest>> getAdoptionRequests(@RequestParam(required = false) String status) {
@@ -106,20 +108,21 @@ public class AdminController {
 
         return ResponseEntity.ok(adoptionRequests);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     // Get list of pets waiting for approval
     @GetMapping("/pending-pets")
     public ResponseEntity<List<Pet>> getPendingPets() {
         List<Pet> pendingPets = adminService.getPendingPets();
         return ResponseEntity.ok(pendingPets);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     // Approve a specific pet
     @PutMapping("/approve-pet/{petId}")
     public ResponseEntity<String> approvePet(@PathVariable Long petId) {
         adminService.approvePet(petId);
         return ResponseEntity.ok("Pet approved successfully.");
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     // Reject a specific pet
     @PutMapping("/reject-pet/{petId}")
     public ResponseEntity<String> rejectPet(@PathVariable Long petId) {

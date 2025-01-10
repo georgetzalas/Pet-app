@@ -19,22 +19,22 @@ public class VetController {
         this.vetService = vetService;
         this.vetServices = vetServices;
     }
-
+    @PreAuthorize("hasRole('VET') or hasRole('ADMIN')")
     @GetMapping
     public List<Vet> getAllVets() {
         return vetService.getAllVets();
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SHELTER') or hasRole('VET') or hasRole('CITIZEN')")
     @GetMapping("/{id}")
     public Vet getVetById(@PathVariable Integer id) {
         return vetService.getVetById(id);
     }
-
+    @PreAuthorize("hasRole('VET') or hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteVet(@PathVariable Integer id) {
         vetService.deleteVet(id);
     }
-
+    @PreAuthorize("hasRole('VET')")
     @PostMapping
     public ResponseEntity<String> addVet(@RequestBody Vet vet) {
         try {
