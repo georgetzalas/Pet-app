@@ -19,6 +19,8 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+
     private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme().type(SecurityScheme.Type.HTTP)
                 .bearerFormat("JWT")
@@ -31,9 +33,9 @@ public class AppConfig {
                         addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes
                         ("Bearer Authentication", createAPIKeyScheme()))
-                .info(new Info().title("PET APPS REST API")
-                        .description("This API is used in pet app project")
-                        .version("1.0").contact(new Contact().name("Giwrgos Tzalas | Evangelia Baliou | Panagiwta Sfyridi")
+                .info(new Info().title("DS LAB 2024 REST API")
+                        .description("This API is used in dl-lab-2024 project")
+                        .version("1.0").contact(new Contact().name("Anargyros Tsadimas")
                                 .email("tsadimas@hua.gr").url("https://tsadimas.github.io"))
                         .license(new License().name("License of API")
                                 .url("https://swagger.io/license/")));

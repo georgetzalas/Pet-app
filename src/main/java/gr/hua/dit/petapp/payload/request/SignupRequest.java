@@ -28,10 +28,10 @@ public class SignupRequest {
     private String password;
 
     //@RoleBasedField(roleField = "role", targetField = "surname", validRoles = {"user", "vet","admin"}, message = "Surname is required for user,vet and admin roles")
-    private String surname;
+    //private String surname;
 
     //@RoleBasedField(roleField = "role", targetField = "region", validRoles = {"shelter"}, message = "Region is required for shelter role")
-    private String region;
+    //private String region;
 
     public String getUsername() {
         return username;
@@ -65,13 +65,13 @@ public class SignupRequest {
         this.role = role;
     }
 
-    public String getSurname() {
+    /*public String getSurname() {
         return surname;
     }
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -81,12 +81,12 @@ public class SignupRequest {
         this.name = name;
     }
 
-    public String getRegion() {
+    /*public String getRegion() {
         return region;
     }
 
     public void setRegion(String region) {
         this.region = region;
-    }
+    }*/
 }
 

@@ -47,7 +47,7 @@ public class AuthController {
 
     @PostConstruct
     public void setup() {
-        Role role_user = new Role("ROLE_USER");
+        Role role_user = new Role("ROLE_CITIZEN");
         Role role_admin = new Role("ROLE_ADMIN");
         Role role_vet = new Role("ROLE_VET");
         Role role_shelter = new Role("ROLE_SHELTER");
@@ -108,7 +108,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName("ROLE_USER")
+            Role userRole = roleRepository.findByName("ROLE_CITIZEN")
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
@@ -134,7 +134,7 @@ public class AuthController {
 
                         break;
                     default:
-                        Role userRole = roleRepository.findByName("ROLE_USER")
+                        Role userRole = roleRepository.findByName("ROLE_CITIZEN")
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                 }
