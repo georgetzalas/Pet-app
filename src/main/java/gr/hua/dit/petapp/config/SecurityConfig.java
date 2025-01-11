@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/shelter/**").hasRole("SHELTER") // Πρόσβαση μόνο σε Shelter
                         .requestMatchers("/api/vet/**").hasRole("VET") // Πρόσβαση μόνο σε Vet
                         .requestMatchers("/api/citizen/**").hasRole("CITIZEN") // Πρόσβαση μόνο σε Citizen
-                        .requestMatchers("/api/pet/**").hasRole("PET") // Πρόσβαση μόνο σε Pet
+                        .requestMatchers("/api/pets/**").hasAnyRole("ADMIN", "SHELTER", "VET", "CITIZEN") // Πρόσβαση μόνο σε Pet
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v2/api-docs/**",

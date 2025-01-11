@@ -40,9 +40,22 @@ public class PetServices {
 
     @Transactional
     public void savePet(Pet pet) {
-        Citizen citizen = citizenRepository.findById((pet.getCitizen().getId().intValue())).get();
-        Vet vet = vetRepository.findById((pet.getVet().getId().intValue())).get();
-        Shelter shelter = shelterRepository.findById((pet.getShelter().getId().intValue())).get();
+        Citizen citizen = null;
+        Vet vet = null;
+        Shelter shelter = null;
+
+        if(pet.getCitizen() != null)
+        {
+            citizen = citizenRepository.findById((pet.getCitizen().getId().intValue())).get();
+        }
+        if(pet.getVet() != null)
+        {
+            vet = vetRepository.findById((pet.getVet().getId().intValue())).get();
+        }
+        if(pet.getShelter() != null)
+        {
+            shelter = shelterRepository.findById(pet.getShelter().getId().intValue()).get();
+        }
 
         pet.setCitizen(citizen);
         pet.setVet(vet);

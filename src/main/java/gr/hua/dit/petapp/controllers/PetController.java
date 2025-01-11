@@ -26,11 +26,9 @@ public class PetController {
         return petService.getPetById(id);
     }
 
-    @PreAuthorize("hasRole('SHELTER')")
+    @PreAuthorize("hasRole('ROLE_SHELTER')")
     @PostMapping
     public void addPet(@RequestBody Pet pet) {
-        System.out.println(pet.getVet());
-
         petService.savePet(pet);
     }
 
