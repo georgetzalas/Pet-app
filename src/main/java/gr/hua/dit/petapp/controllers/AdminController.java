@@ -5,6 +5,7 @@ import gr.hua.dit.petapp.entities.*;
 import gr.hua.dit.petapp.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,31 +59,33 @@ public class AdminController {
         }
     }*/
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/checkEmail")
     public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
         boolean exists = adminService.emailExists(email);
         return ResponseEntity.ok(exists);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{userType}/{id}/approve")
     public ResponseEntity<String> approveAccount(@PathVariable String userType, @PathVariable Integer id) {
         adminService.approveAccount(userType, id);
         return ResponseEntity.ok("Account approved successfully.");
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{userType}/{id}/reject")
     public ResponseEntity<String> rejectAccount(@PathVariable String userType, @PathVariable Integer id,
                                                 @RequestParam(required = false) String remarks) {
         adminService.rejectAccount(userType, id, remarks);
         return ResponseEntity.ok("Account rejected successfully.");
     }
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to fetch all accounts
     @GetMapping("/accounts")
     public ResponseEntity<List<Map<String, Object>>> getAllAccounts() {
         List<Map<String, Object>> accounts = adminService.getAllAccounts();
         return ResponseEntity.ok(accounts);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to delete an account by email
     @DeleteMapping("/account/delete")
     public ResponseEntity<?> deleteAccount(@RequestParam String email) {
@@ -93,6 +96,7 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to filter adoption requests by status
     @GetMapping("/adoption-requests")
     public ResponseEntity<List<AdoptionRequest>> getAdoptionRequests(@RequestParam(required = false) String status) {
@@ -106,6 +110,7 @@ public class AdminController {
 
         return ResponseEntity.ok(adoptionRequests);
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     // Get list of pets waiting for approval
     @GetMapping("/pending-pets")
     public ResponseEntity<List<Pet>> getPendingPets() {
@@ -113,6 +118,7 @@ public class AdminController {
         return ResponseEntity.ok(pendingPets);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     // Approve a specific pet
     @PutMapping("/approve-pet/{petId}")
     public ResponseEntity<String> approvePet(@PathVariable Long petId) {
@@ -120,6 +126,7 @@ public class AdminController {
         return ResponseEntity.ok("Pet approved successfully.");
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('VET')")
     // Reject a specific pet
     @PutMapping("/reject-pet/{petId}")
     public ResponseEntity<String> rejectPet(@PathVariable Long petId) {

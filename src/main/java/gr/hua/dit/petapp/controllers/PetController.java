@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.Pet;
 import gr.hua.dit.petapp.services.PetServices;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class PetController {
         return petService.getPetById(id);
     }
 
+    @PreAuthorize("hasRole('SHELTER')")
     @PostMapping
     public void addPet(@RequestBody Pet pet) {
         System.out.println(pet.getVet());
@@ -32,6 +34,7 @@ public class PetController {
         petService.savePet(pet);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SHELTER')")
     @DeleteMapping("/{id}")
     public void deletePet(@PathVariable Long id) {
         petService.deletePet(id);

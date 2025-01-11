@@ -31,7 +31,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManagerBean (AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
@@ -49,20 +49,23 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**","/actuator/health/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/actuator/health/**").permitAll() // Δημόσια endpoints
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // Πρόσβαση μόνο σε Admin
+                        .requestMatchers("/api/shelter/**").hasRole("SHELTER") // Πρόσβαση μόνο σε Shelter
+                        .requestMatchers("/api/vet/**").hasRole("VET") // Πρόσβαση μόνο σε Vet
+                        .requestMatchers("/api/citizen/**").hasRole("CITIZEN") // Πρόσβαση μόνο σε Citizen
+                        .requestMatchers("/api/pet/**").hasRole("PET") // Πρόσβαση μόνο σε Pet
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v2/api-docs/**",
                                 "/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
-                        ).permitAll()
-                        .requestMatchers("/students/**").hasRole("USER")
-                        .anyRequest().authenticated()
+                        ).permitAll() // Πρόσβαση στο Swagger χωρίς authentication
+                        .anyRequest().authenticated() // Οποιοδήποτε άλλο endpoint απαιτεί αυθεντικοποίηση
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
-
     }
 }
