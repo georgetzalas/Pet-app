@@ -55,8 +55,7 @@ public class ShelterService {
     }
 
     @Transactional
-    public List<Shelter> getShelters()
-    {
+    public List<Shelter> getShelters() {
         return shelterRepository.findAll();
     }
 }

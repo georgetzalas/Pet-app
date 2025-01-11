@@ -10,10 +10,10 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "users", uniqueConstraints = {
+@Table(name = "users"/*, uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
-})
+}*/)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id

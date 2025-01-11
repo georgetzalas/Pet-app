@@ -27,6 +27,13 @@ public class Shelter extends User{
         this.Region = Region;
         this.status = status;
     }
+
+    public Shelter(String name, String username, String email, String password, String region)
+    {
+        super(name, username, email, password);
+        this.Region = region;
+    }
+
     public Shelter(String Region)
     {
         this.Region = Region;

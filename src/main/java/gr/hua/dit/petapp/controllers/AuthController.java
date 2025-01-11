@@ -1,10 +1,9 @@
 package gr.hua.dit.petapp.controllers;
 
-import gr.hua.dit.petapp.entities.User;
-import gr.hua.dit.petapp.payload.request.LoginRequest;
+import gr.hua.dit.petapp.entities.*;
+import gr.hua.dit.petapp.payload.request.*;
 import gr.hua.dit.petapp.payload.response.JwtResponse;
-import gr.hua.dit.petapp.repositories.RoleRepository;
-import gr.hua.dit.petapp.repositories.UserRepository;
+import gr.hua.dit.petapp.repositories.*;
 import gr.hua.dit.petapp.services.UserDetailsImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -18,13 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import gr.hua.dit.petapp.payload.request.SignupRequest;
 import gr.hua.dit.petapp.payload.response.MessageResponse;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import gr.hua.dit.petapp.entities.Role;
+
 import gr.hua.dit.petapp.config.JwtUtils;
 
 @RestController
@@ -33,16 +31,22 @@ public class AuthController {
 
     AuthenticationManager authenticationManager;
     UserRepository userRepository;
+    VetRepository vetRepository;
+    ShelterRepository shelterRepository;
+    CitizenRepository citizenRepository;
     RoleRepository roleRepository;
     BCryptPasswordEncoder encoder;
     JwtUtils jwtUtils;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder, JwtUtils jwtUtils, VetRepository vetRepository, ShelterRepository shelterRepository, CitizenRepository citizenRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.vetRepository = vetRepository;
+        this.shelterRepository = shelterRepository;
+        this.citizenRepository = citizenRepository;
     }
 
     @PostConstruct
@@ -85,7 +89,7 @@ public class AuthController {
                 null));
     }
 
-    @PostMapping("/signup")
+    /*@PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -141,9 +145,118 @@ public class AuthController {
             });
         }
 
+
         user.setRoles(roles);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }*/
+
+    @PostMapping("/signup/vet")
+    public ResponseEntity<?> registerVet(@Valid @RequestBody SignupRequestVet signUpRequest)
+    {
+        if (vetRepository.existsByUsername(signUpRequest.getUsername())
+                || shelterRepository.existsByUsername(signUpRequest.getUsername())
+                || citizenRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (vetRepository.existsByEmail(signUpRequest.getEmail())
+            || shelterRepository.existsByEmail(signUpRequest.getEmail())
+            || citizenRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        Vet vet = new Vet(signUpRequest.getName(),
+                            signUpRequest.getUsername(),
+                            signUpRequest.getEmail(),
+                            encoder.encode(signUpRequest.getPassword()),
+                            signUpRequest.getSurname());
+        Set<Role> roles = new HashSet<>();
+
+        Role vetRole = roleRepository.findByName("ROLE_VET")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(vetRole);
+
+        vet.setRoles(roles);
+        vetRepository.save(vet);
+        return ResponseEntity.ok(new MessageResponse("Vet registered successfully!"));
+    }
+
+    @PostMapping("/signup/shelter")
+    public ResponseEntity<?> registerShelter(@Valid @RequestBody SignupRequestShelter signUpRequest)
+    {
+        if (vetRepository.existsByUsername(signUpRequest.getUsername())
+                || shelterRepository.existsByUsername(signUpRequest.getUsername())
+                || citizenRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (vetRepository.existsByEmail(signUpRequest.getEmail())
+                || shelterRepository.existsByEmail(signUpRequest.getEmail())
+                || citizenRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        Shelter shelter = new Shelter(signUpRequest.getName(),
+                signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getRegion());
+        Set<Role> roles = new HashSet<>();
+
+        Role shelterRole = roleRepository.findByName("ROLE_SHELTER")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(shelterRole);
+
+        shelter.setRoles(roles);
+        System.out.println(shelter);
+        shelterRepository.save(shelter);
+
+        return ResponseEntity.ok(new MessageResponse("Shelter registered successfully!"));
+    }
+
+    @PostMapping("/signup/citizen")
+    public ResponseEntity<?> registerCitizen(@Valid @RequestBody SignupRequestCitizen signUpRequest)
+    {
+        if (vetRepository.existsByUsername(signUpRequest.getUsername())
+                || shelterRepository.existsByUsername(signUpRequest.getUsername())
+                || citizenRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (vetRepository.existsByEmail(signUpRequest.getEmail())
+                || shelterRepository.existsByEmail(signUpRequest.getEmail())
+                || citizenRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        Citizen citizen = new Citizen(signUpRequest.getName(),
+                signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getSurname());
+        Set<Role> roles = new HashSet<>();
+
+        Role citizenRole = roleRepository.findByName("ROLE_CITIZEN")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(citizenRole);
+
+        citizen.setRoles(roles);
+        citizenRepository.save(citizen);
+
+        return ResponseEntity.ok(new MessageResponse("Citizen registered successfully!"));
     }
 }

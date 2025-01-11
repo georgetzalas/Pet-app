@@ -41,6 +41,12 @@ public class Vet extends User {
         this.Surname = Surname;
     }
 
+    public Vet(String name, String username, String email, String password, String Surname)
+    {
+        super(name, username, email, password);
+        this.Surname=Surname;
+    }
+
     @Enumerated(EnumType.STRING)
     private AccountStatus status = AccountStatus.PENDING; // Default to PENDING
 

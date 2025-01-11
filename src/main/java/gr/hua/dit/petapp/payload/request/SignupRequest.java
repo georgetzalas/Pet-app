@@ -21,17 +21,11 @@ public class SignupRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    private Set<String> role;
+    //private Set<String> role;
 
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, max = 40)
     private String password;
-
-    //@RoleBasedField(roleField = "role", targetField = "surname", validRoles = {"user", "vet","admin"}, message = "Surname is required for user,vet and admin roles")
-    //private String surname;
-
-    //@RoleBasedField(roleField = "role", targetField = "region", validRoles = {"shelter"}, message = "Region is required for shelter role")
-    //private String region;
 
     public String getUsername() {
         return username;
@@ -57,20 +51,12 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public Set<String> getRole() {
+    /*public Set<String> getRole() {
         return this.role;
     }
 
     public void setRole(Set<String> role) {
         this.role = role;
-    }
-
-    /*public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }*/
 
     public String getName() {
@@ -81,12 +67,5 @@ public class SignupRequest {
         this.name = name;
     }
 
-    /*public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }*/
 }
 

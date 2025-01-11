@@ -30,6 +30,12 @@ public class Citizen extends User{
         this.pet=pet;
     }
 
+    public Citizen(String name, String username, String email, String password, String surname)
+    {
+        super(name, username, email, password);
+        this.surname = surname;
+    }
+
     public String getSurname() {
         return surname;
     }
