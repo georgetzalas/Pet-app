@@ -90,7 +90,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to delete an account by email
     @DeleteMapping("/account/delete")
-    public ResponseEntity<?> deleteAccount(@RequestParam String email) {
+    public ResponseEntity<String> deleteAccount(@RequestParam String email) {
         try {
             adminService.deleteAccount(email);
             return ResponseEntity.ok("Account deleted successfully, and an email notification has been sent.");
@@ -135,4 +135,5 @@ public class AdminController {
         adminService.rejectPet(petId);
         return ResponseEntity.ok("Pet rejected successfully.");
     }
+
 }
