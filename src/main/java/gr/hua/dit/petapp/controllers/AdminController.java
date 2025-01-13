@@ -31,36 +31,6 @@ public class AdminController {
         this.adoptionRequestService = adoptionRequestService;
     }
 
-    @PutMapping("/update-shelter/{id}")
-    public ResponseEntity<?> updateShelterProfile(@PathVariable Integer id, @RequestBody Shelter shelterDetails) {
-        try {
-            shelterService.updateShelter(id, shelterDetails);
-            return ResponseEntity.ok(new MessageResponse("Shelter profile updated successfully!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
-        }
-    }
-
-    @PutMapping("/update-vet/{id}")
-    public ResponseEntity<?> updateVetProfile(@PathVariable Integer id, @RequestBody Vet vetDetails) {
-        try {
-            vetService.updateVet(id, vetDetails);
-            return ResponseEntity.ok(new MessageResponse("Vet profile updated successfully!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
-        }
-    }
-
-    @PutMapping("/update-citizen/{id}")
-    public ResponseEntity<?> updateCitizenProfile(@PathVariable Integer id, @RequestBody Citizen citizenDetails) {
-        try {
-            citizenService.updateCitizen(id, citizenDetails);
-            return ResponseEntity.ok(new MessageResponse("Citizen profile updated successfully!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
-        }
-    }
-
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/checkEmail")
     public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
@@ -90,7 +60,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to delete an account by email
     @DeleteMapping("/account/delete")
-    public ResponseEntity<?> deleteAccount(@RequestParam String email) {
+    public ResponseEntity<String> deleteAccount(@RequestParam String email) {
         try {
             adminService.deleteAccount(email);
             return ResponseEntity.ok("Account deleted successfully, and an email notification has been sent.");
@@ -135,4 +105,5 @@ public class AdminController {
         adminService.rejectPet(petId);
         return ResponseEntity.ok("Pet rejected successfully.");
     }
+
 }

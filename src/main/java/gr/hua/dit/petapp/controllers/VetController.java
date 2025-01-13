@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.Vet;
 import gr.hua.dit.petapp.exception.EmailAlreadyExistsException;
+import gr.hua.dit.petapp.payload.response.MessageResponse;
 import gr.hua.dit.petapp.services.VetServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,17 @@ public class VetController {
             return new ResponseEntity<>("Vet account created successfully!", HttpStatus.CREATED);
         } catch (EmailAlreadyExistsException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update-vet/{id}")
+    public ResponseEntity<?> updateVetProfile(@PathVariable Integer id, @RequestBody Vet vetDetails) {
+        try {
+            vetService.updateVet(id, vetDetails);
+            return ResponseEntity.ok(new MessageResponse("Vet profile updated successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 

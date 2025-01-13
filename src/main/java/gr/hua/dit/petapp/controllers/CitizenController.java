@@ -1,6 +1,7 @@
 package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.exception.EmailAlreadyExistsException;
+import gr.hua.dit.petapp.payload.response.MessageResponse;
 import gr.hua.dit.petapp.services.EmailService;
 import gr.hua.dit.petapp.entities.Citizen;
 import gr.hua.dit.petapp.services.CitizenServices;
@@ -53,6 +54,17 @@ public class CitizenController {
             return new ResponseEntity<>("Citizen account created successfully!", HttpStatus.CREATED);
         } catch (EmailAlreadyExistsException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update-citizen/{id}")
+    public ResponseEntity<?> updateCitizenProfile(@PathVariable Integer id, @RequestBody Citizen citizenDetails) {
+        try {
+            citizenService.updateCitizen(id, citizenDetails);
+            return ResponseEntity.ok(new MessageResponse("Citizen profile updated successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 

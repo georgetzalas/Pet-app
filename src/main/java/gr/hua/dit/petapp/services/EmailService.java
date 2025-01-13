@@ -1,4 +1,5 @@
 package gr.hua.dit.petapp.services;
+import gr.hua.dit.petapp.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -7,8 +8,9 @@ import org.springframework.mail.SimpleMailMessage;
 import gr.hua.dit.petapp.repositories.EmailRepository;
 @Service
 public class EmailService {
-
-    /*private final JavaMailSender mailSender;
+    @Autowired
+    UserRepository userRepository;
+    private  JavaMailSender mailSender;
 
     @Autowired
     public EmailService(JavaMailSender mailSender) {
@@ -46,5 +48,27 @@ public class EmailService {
         mailMessage.setSubject("Account Deletion Notification");
         mailMessage.setText(message);
         mailSender.send(mailMessage);
-    }*/
+    }
+
+    @Transactional
+    public void sendRequestVisit(long id ){
+        String name = userRepository.findById(id).get().getName();
+        String email = userRepository.findById(id).get().getEmail();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Request visit");
+        mailMessage.setText("The Citizen with name: "+ name +"has requested to pay you a visit !");
+        mailSender.send(mailMessage);
+    }
+    @Transactional
+    public void ShelterProgram(long id ){
+        String name = userRepository.findById(id).get().getName();
+        String email = userRepository.findById(id).get().getEmail();
+        String day="Mondey";
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Visiting Program");
+        mailMessage.setText("The Shelter with name: "+ name +"can welcome you at this "+day+"!");
+        mailSender.send(mailMessage);
+    }
 }
