@@ -21,8 +21,6 @@ public class SignupRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    //private Set<String> role;
-
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, max = 40)
     private String password;
@@ -51,14 +49,6 @@ public class SignupRequest {
         this.password = password;
     }
 
-    /*public Set<String> getRole() {
-        return this.role;
-    }
-
-    public void setRole(Set<String> role) {
-        this.role = role;
-    }*/
-
     public String getName() {
         return name;
     }
@@ -66,6 +56,5 @@ public class SignupRequest {
     public void setName(String name) {
         this.name = name;
     }
-
 }
 

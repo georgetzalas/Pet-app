@@ -18,6 +18,12 @@ public class Shelter extends User{
     @Column
     private String Region;
 
+    public Shelter(String name, String username, String email, String password, String region)
+    {
+        super(name, username, email, password);
+        this.Region = region;
+    }
+
     public Shelter(){
 
     }
@@ -26,12 +32,6 @@ public class Shelter extends User{
         this.pet = pet;
         this.Region = Region;
         this.status = status;
-    }
-
-    public Shelter(String name, String username, String email, String password, String region)
-    {
-        super(name, username, email, password);
-        this.Region = region;
     }
 
     public Shelter(String Region)

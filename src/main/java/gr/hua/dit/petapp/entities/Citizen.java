@@ -20,6 +20,13 @@ public class Citizen extends User{
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
+
+    public Citizen(String name, String username, String email, String password, String surname)
+    {
+        super(name, username, email, password);
+        this.surname = surname;
+    }
+
     public Citizen(){}
 
     public Citizen(String surname,List<AdoptionRequest> adoptionRequestList,List<Pet> pet)
@@ -28,12 +35,6 @@ public class Citizen extends User{
         this.surname = surname;
         this.adoptionRequestList=adoptionRequestList;
         this.pet=pet;
-    }
-
-    public Citizen(String name, String username, String email, String password, String surname)
-    {
-        super(name, username, email, password);
-        this.surname = surname;
     }
 
     public String getSurname() {

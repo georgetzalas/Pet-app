@@ -20,6 +20,12 @@ public class Admin extends User {
     @Column
     private String surname;
 
+    public Admin(String name, String username, String email, String password, String surname)
+    {
+        super(name, username, email, password);
+        this.surname = surname;
+    }
+
     public Admin(){}
 
     public Admin(String surname)

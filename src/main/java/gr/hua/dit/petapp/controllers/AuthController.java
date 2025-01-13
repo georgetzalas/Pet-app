@@ -7,6 +7,8 @@ import gr.hua.dit.petapp.repositories.*;
 import gr.hua.dit.petapp.services.UserDetailsImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import gr.hua.dit.petapp.payload.response.MessageResponse;
 import java.util.List;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,16 +32,18 @@ import gr.hua.dit.petapp.config.JwtUtils;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     AuthenticationManager authenticationManager;
     UserRepository userRepository;
     VetRepository vetRepository;
     ShelterRepository shelterRepository;
     CitizenRepository citizenRepository;
+    AdminRepository adminRepository;
     RoleRepository roleRepository;
     BCryptPasswordEncoder encoder;
     JwtUtils jwtUtils;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder, JwtUtils jwtUtils, VetRepository vetRepository, ShelterRepository shelterRepository, CitizenRepository citizenRepository) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder, JwtUtils jwtUtils, VetRepository vetRepository, ShelterRepository shelterRepository, CitizenRepository citizenRepository, AdminRepository adminRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -47,6 +52,7 @@ public class AuthController {
         this.vetRepository = vetRepository;
         this.shelterRepository = shelterRepository;
         this.citizenRepository = citizenRepository;
+        this.adminRepository = adminRepository;
     }
 
     @PostConstruct
@@ -60,6 +66,18 @@ public class AuthController {
         roleRepository.updateOrInsert(role_admin);
         roleRepository.updateOrInsert(role_vet);
         roleRepository.updateOrInsert(role_shelter);
+
+        if(!adminRepository.existsByUsername("admin"))
+        {
+            Admin admin = new Admin("admin", "admin", "admin@gmail.com", encoder.encode("admin"), "admin");
+            Set<Role> roles = new HashSet<>();
+
+            Role adminRole = roleRepository.findByName("ROLE_ADMIN")
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(adminRole);
+            admin.setRoles(roles);
+            adminRepository.save(admin);
+        }
     }
 
     @PostMapping("/signin")
@@ -79,14 +97,42 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        String surname = null;
+        String region  = null;
+
+        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
+        if(user.isPresent())
+        {
+            if(user.get().getClass() == Citizen.class)
+            {
+                Citizen citizen = (Citizen) user.get();
+                surname = citizen.getSurname();
+            }
+            if(user.get().getClass() == Shelter.class)
+            {
+                Shelter shelter = (Shelter) user.get();
+                region = shelter.getRegion();
+            }
+            if(user.get().getClass() == Admin.class)
+            {
+                Admin admin = (Admin) user.get();
+                surname = admin.getSurname();
+            }
+            if(user.get().getClass() == Vet.class)
+            {
+                Vet vet = (Vet) user.get();
+                surname = vet.getSurname();
+            }
+        }
+
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getName(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles,
-                null,
-                null));
+                surname,
+                region));
     }
 
     /*@PostMapping("/signup")

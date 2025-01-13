@@ -24,6 +24,7 @@ public class JwtResponse {
         this.surname = (surname != null) ? surname : "N/A"; // Default to "N/A" if null
         this.region = (region != null) ? region : "N/A";   // Default to "N/A" if null
     }
+
     public JwtResponse(String accessToken, Long id, String name, String username, String email, List<String> roles) {
         this(accessToken, id, name, username, email, roles, null, null);
     }

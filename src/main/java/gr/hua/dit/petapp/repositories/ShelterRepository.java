@@ -10,7 +10,6 @@ public interface ShelterRepository extends JpaRepository<Shelter, Integer> {
     Optional<Shelter> findByEmail(String email);
     Optional<User> findByUsername(String username);
     Boolean existsByUsername(String username);
-
     Boolean existsByEmail(String email);
 }
 
