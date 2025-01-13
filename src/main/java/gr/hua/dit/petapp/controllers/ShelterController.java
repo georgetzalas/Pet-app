@@ -1,6 +1,7 @@
 package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.Shelter;
+import gr.hua.dit.petapp.payload.response.MessageResponse;
 import gr.hua.dit.petapp.services.ShelterService;
 import gr.hua.dit.petapp.exception.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,17 @@ public class ShelterController {
     public List<Shelter> getShelters()
     {
         return shelterService.getShelters();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update-shelter/{id}")
+    public ResponseEntity<?> updateShelterProfile(@PathVariable Integer id, @RequestBody Shelter shelterDetails) {
+        try {
+            shelterService.updateShelter(id, shelterDetails);
+            return ResponseEntity.ok(new MessageResponse("Shelter profile updated successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
     }
 
 }

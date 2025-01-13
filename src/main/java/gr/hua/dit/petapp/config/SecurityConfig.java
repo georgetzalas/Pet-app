@@ -50,11 +50,11 @@ public class SecurityConfig {
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/actuator/health/**").permitAll() // Δημόσια endpoints
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // Πρόσβαση μόνο σε Admin
-                        .requestMatchers("/api/shelter/**").hasRole("SHELTER") // Πρόσβαση μόνο σε Shelter
-                        .requestMatchers("/api/vet/**").hasRole("VET") // Πρόσβαση μόνο σε Vet
-                        .requestMatchers("/api/citizen/**").hasRole("CITIZEN") // Πρόσβαση μόνο σε Citizen
-                        .requestMatchers("/api/pets/**").hasAnyRole("ADMIN", "SHELTER", "VET", "CITIZEN") // Πρόσβαση μόνο σε Pet
+                        .requestMatchers("/api/admin/").hasAnyRole("ADMIN","VET")
+                        .requestMatchers("/api/shelter/").hasAnyRole("SHELTER","ADMIN","CITIZEN")
+                        .requestMatchers("/api/vet/").hasAnyRole("VET","SHELTER","ADMIN")
+                        .requestMatchers("/api/citizen/").hasAnyRole("CITIZEN","ADMIN","VET","SHELTER")
+                        .requestMatchers("/api/pets/**").hasAnyRole("ADMIN", "SHELTER", "VET", "CITIZEN")
                         .requestMatchers("/api/email/**").hasAnyRole("ADMIN","SHELTER","VET","CITIZEN")
                         .requestMatchers(
                                 "/v3/api-docs/**",
