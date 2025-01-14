@@ -85,20 +85,20 @@ public class PetServices {
     }*/
 
     @Transactional
-    public void approvePetAdmin(Long petId) {
-        Pet pet = petRepository.findById(petId)
-                .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
-
-        pet.setAdminApprovalStatus(ApprovalStatus.APPROVED);
-        petRepository.save(pet);
-    }
-
-    @Transactional
     public void rejectPetAdmin(Long petId) {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
 
         pet.setAdminApprovalStatus(ApprovalStatus.REJECTED);
+        petRepository.save(pet);
+    }
+
+    @Transactional
+    public void approvePetAdmin(Long petId) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
+
+        pet.setAdminApprovalStatus(ApprovalStatus.APPROVED);
         petRepository.save(pet);
     }
 
@@ -126,7 +126,7 @@ public class PetServices {
         List<Pet> pendingPets = new ArrayList<>();
         for(Pet pet : pets)
         {
-            if(pet.getAdminApprovalStatus().equals(AccountStatus.PENDING) || pet.getVetApprovalStatus().equals(AccountStatus.PENDING))
+            if(pet.getAdminApprovalStatus().equals(ApprovalStatus.PENDING) || pet.getVetApprovalStatus().equals(ApprovalStatus.PENDING))
             {
                 pendingPets.add(pet);
             }

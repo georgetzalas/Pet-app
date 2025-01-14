@@ -210,12 +210,12 @@ public class Pet {
         return adminApprovalStatus;
     }
 
-    public void setAdminApprovalStatus(ApprovalStatus adminApprovalStatus) {
-        this.adminApprovalStatus = adminApprovalStatus;
-    }
-
     public ApprovalStatus getVetApprovalStatus() {
         return vetApprovalStatus;
+    }
+
+    public void setAdminApprovalStatus(ApprovalStatus adminApprovalStatus) {
+        this.adminApprovalStatus = adminApprovalStatus;
     }
 
     public void setVetApprovalStatus(ApprovalStatus vetApprovalStatus) {

@@ -18,10 +18,13 @@ public class EmailController {
         this.emailService = emailService;
     }
 
+    @PreAuthorize("hasRole('CITIZEN')")
     @PostMapping("/send-request")
     public void sendRequestVisit(@RequestParam long id){
         emailService.sendRequestVisit(id);
     }
+
+    @PreAuthorize("hasRole('SHELTER')")
     @PostMapping("/send-program")
     public void ShelterProgram(@RequestParam long id){
         emailService.ShelterProgram(id);

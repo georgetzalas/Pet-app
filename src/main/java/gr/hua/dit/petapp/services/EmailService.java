@@ -8,13 +8,13 @@ import org.springframework.mail.SimpleMailMessage;
 import gr.hua.dit.petapp.repositories.EmailRepository;
 @Service
 public class EmailService {
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     private  JavaMailSender mailSender;
 
     @Autowired
-    public EmailService(JavaMailSender mailSender) {
+    public EmailService(JavaMailSender mailSender, UserRepository userRepository) {
         this.mailSender = mailSender;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -51,16 +51,6 @@ public class EmailService {
     }
 
     @Transactional
-    public void sendRequestVisit(long id ){
-        String name = userRepository.findById(id).get().getName();
-        String email = userRepository.findById(id).get().getEmail();
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(email);
-        mailMessage.setSubject("Request visit");
-        mailMessage.setText("The Citizen with name: "+ name +"has requested to pay you a visit !");
-        mailSender.send(mailMessage);
-    }
-    @Transactional
     public void ShelterProgram(long id ){
         String name = userRepository.findById(id).get().getName();
         String email = userRepository.findById(id).get().getEmail();
@@ -69,6 +59,17 @@ public class EmailService {
         mailMessage.setTo(email);
         mailMessage.setSubject("Visiting Program");
         mailMessage.setText("The Shelter with name: "+ name +"can welcome you at this "+day+"!");
+        mailSender.send(mailMessage);
+    }
+
+    @Transactional
+    public void sendRequestVisit(long id ){
+        String name = userRepository.findById(id).get().getName();
+        String email = userRepository.findById(id).get().getEmail();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Request visit");
+        mailMessage.setText("The Citizen with name: "+ name +"has requested to pay you a visit !");
         mailSender.send(mailMessage);
     }
 }

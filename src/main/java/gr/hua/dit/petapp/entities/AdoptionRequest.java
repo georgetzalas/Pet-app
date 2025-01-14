@@ -16,8 +16,8 @@ public class AdoptionRequest {
     @JoinColumn(name = "citizenid")
     private Citizen citizen;
 
-    @Column
-    private AdoptionStatus status;
+    @Enumerated(EnumType.STRING)
+    private AdoptionStatus status = AdoptionStatus.PENDING;
 
     public AdoptionRequest() {
     }

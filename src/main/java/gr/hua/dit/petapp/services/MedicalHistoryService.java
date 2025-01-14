@@ -34,19 +34,19 @@ public class MedicalHistoryService
     }
 
     @Transactional
-    public void deleteMedicalHistory(Long id)
-    {
-        MedicalHistory medicalHistory = medicalHistoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Medical history not found"));
-        medicalHistoryRepository.deleteById(id);
-    }
-
-    @Transactional
     public void saveMedicalHistory(MedicalHistory medicalHistory)
     {
         Pet pet = medicalHistory.getPet();
         System.out.println(pet.toString());
         medicalHistory.setPet(pet);
         medicalHistoryRepository.save(medicalHistory);
+    }
+
+    @Transactional
+    public void deleteMedicalHistory(Long id)
+    {
+        MedicalHistory medicalHistory = medicalHistoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Medical history not found"));
+        medicalHistoryRepository.deleteById(id);
     }
 
     @Transactional

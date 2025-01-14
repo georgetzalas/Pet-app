@@ -61,7 +61,7 @@ public class PetController {
     @PreAuthorize("hasRole('ADMIN')")
     // Approve a specific pet
     @PutMapping("/approve-pet-admin/{petId}")
-    public ResponseEntity<MessageResponse> approvePetAmdin(@PathVariable Long petId) {
+    public ResponseEntity<MessageResponse> approvePetAdmin(@PathVariable Long petId) {
         try
         {
             petService.approvePetAdmin(petId);
@@ -69,7 +69,6 @@ public class PetController {
 
         }catch(IllegalArgumentException e)
         {
-            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
@@ -85,7 +84,6 @@ public class PetController {
 
         }catch(IllegalArgumentException e)
         {
-            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
@@ -115,7 +113,6 @@ public class PetController {
             return ResponseEntity.ok(new MessageResponse("Pet rejected successfully"));
 
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }

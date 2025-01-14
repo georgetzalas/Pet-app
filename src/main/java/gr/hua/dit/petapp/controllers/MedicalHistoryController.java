@@ -61,8 +61,8 @@ public class MedicalHistoryController
     }
 
     @PreAuthorize("hasRole('VET')")
-    @DeleteMapping
-    public ResponseEntity<?> deleteMedicalHistory(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMedicalHistory(@PathVariable Long id) {
         try {
             medicalHistoryService.deleteMedicalHistory(id);
             return ResponseEntity.ok(new MessageResponse("Deleted medical history"));
