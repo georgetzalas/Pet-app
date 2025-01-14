@@ -1,6 +1,7 @@
 package gr.hua.dit.petapp.services;
 
 import gr.hua.dit.petapp.entities.AdoptionRequest;
+import gr.hua.dit.petapp.entities.AdoptionStatus;
 import gr.hua.dit.petapp.entities.Citizen;
 import gr.hua.dit.petapp.entities.Pet;
 import gr.hua.dit.petapp.repositories.AdoptionRequestRepository;
@@ -26,10 +27,9 @@ public class AdoptionRequestService {
 
     // List of valid statuses
     private final List<String> validStatuses = Arrays.asList("PENDING", "APPROVED", "REJECTED");
-
     @Transactional
     // Method to filter adoption requests by status
-    public List<AdoptionRequest> getAdoptionRequestsByStatus(String status) {
+    public List<AdoptionRequest> getAdoptionRequestsByStatus(AdoptionStatus status) {
         // Validate the status
         if (!validStatuses.contains(status)) {
             throw new IllegalArgumentException("Invalid status: " + status);
@@ -48,14 +48,13 @@ public class AdoptionRequestService {
     @Transactional
     public AdoptionRequest getAdoptionRequest(Integer id)
     {
-        AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).get();
+        AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
         return adoptionRequest;
     }
 
     @Transactional
     public void saveAdoptionRequest(AdoptionRequest adoptionRequest)
     {
-        //Pet pet = petRepository.findById(adoptionRequest.getPet().getPetid()).orElseThrow(() -> new IllegalArgumentException("Pet not found"));
         Pet pet = adoptionRequest.getPet();
         Citizen citizen = adoptionRequest.getCitizen();
 
@@ -68,7 +67,7 @@ public class AdoptionRequestService {
     @Transactional
     public void deleteAdoptionRequest(Integer id)
     {
-        AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).get();
+        AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
         adoptionRequestRepository.delete(adoptionRequest);
     }
 }

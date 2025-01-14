@@ -21,32 +21,47 @@ public class VetController {
         this.vetService = vetService;
         this.vetServices = vetServices;
     }
+
     @PreAuthorize("hasRole('ADMIN')or hasRole('SHELTER')")
     @GetMapping
-    public List<Vet> getAllVets() {
-        return vetService.getAllVets();
+    public ResponseEntity<?> getAllVets() {
+        List<Vet> vets = vetService.getAllVets();
+        if(vets.isEmpty()) {
+            return ResponseEntity.ok(new MessageResponse("Vets not found"));
+        }
+        return ResponseEntity.ok(vets);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('SHELTER')")
     @GetMapping("/{id}")
-    public Vet getVetById(@PathVariable Integer id) {
-        return vetService.getVetById(id);
+    public ResponseEntity<?> getVetById(@PathVariable Integer id) {
+        try {
+            Vet vet =vetService.getVetById(id);
+            return ResponseEntity.ok(vet);
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteVet(@PathVariable Integer id) {
-        vetService.deleteVet(id);
+    public ResponseEntity<?> deleteVet(@PathVariable Integer id) {
+        try{
+            vetService.deleteVet(id);
+            return ResponseEntity.ok(new MessageResponse("Vet deleted"));
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
     }
 
     @PreAuthorize("hasRole('VET')")
     @PostMapping
-    public ResponseEntity<String> addVet(@RequestBody Vet vet) {
+    public ResponseEntity<?> addVet(@RequestBody Vet vet) {
         try {
             vetServices.saveVet(vet);
-            return new ResponseEntity<>("Vet account created successfully!", HttpStatus.CREATED);
+            return ResponseEntity.ok(new MessageResponse("Vet account created successfylly!"));
         } catch (EmailAlreadyExistsException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
         }
     }
 

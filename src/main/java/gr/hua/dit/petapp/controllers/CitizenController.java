@@ -5,7 +5,6 @@ import gr.hua.dit.petapp.payload.response.MessageResponse;
 import gr.hua.dit.petapp.services.EmailService;
 import gr.hua.dit.petapp.entities.Citizen;
 import gr.hua.dit.petapp.services.CitizenServices;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/citizens")
 public class CitizenController {
     private  CitizenServices citizenService;
-    private EmailService emailService;
 
     public CitizenController(CitizenServices citizenService) {
         this.citizenService = citizenService;
@@ -24,36 +22,46 @@ public class CitizenController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public List<Citizen> getAllCitizens() {
-        return citizenService.getAllCitizens();
+    public ResponseEntity<?> getAllCitizens() {
+        List<Citizen> citizens = citizenService.getAllCitizens();
+        if(citizens.isEmpty()) {
+            return ResponseEntity.ok(new MessageResponse("No citizens found"));
+        }
+        return ResponseEntity.ok(citizens);
     }
 
     @PreAuthorize("hasRole('VET') or hasRole('ADMIN') or hasRole('SHELTER')")
     @GetMapping("/{id}")
-    public Citizen getCitizenById(@PathVariable Integer id) {
-        return citizenService.getCitizenById(id);
+    public ResponseEntity<?> getCitizenById(@PathVariable Integer id) {
+        try{
+            Citizen citizen = citizenService.getCitizenById(id);
+            return ResponseEntity.ok(citizen);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteCitizen(@PathVariable Integer id) {
-        citizenService.deleteCitizen(id);
+    public ResponseEntity<?> deleteCitizen(@PathVariable Integer id) {
+        try
+        {
+            citizenService.deleteCitizen(id);
+            return ResponseEntity.ok(new MessageResponse("Successfully deleted citizen"));
+        }catch (IllegalArgumentException e)
+        {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
     }
 
     @PreAuthorize("hasRole('CITIZEN')")
-    @PostMapping("/sendVisitRequest")
-    public String sendVisitRequest(@RequestParam String citizenName, @RequestParam String shelterEmail) {
-        //emailService.sendVisitRequestEmail(citizenName, shelterEmail);
-        return "Το email εστάλη επιτυχώς στο καταφύγιο: " + shelterEmail;
-    }
-    @PreAuthorize("hasRole('CITIZEN')")
     @PostMapping
-    public ResponseEntity<String> addCitizen(@RequestBody Citizen citizen) {
+    public ResponseEntity<?> addCitizen(@RequestBody Citizen citizen) {
         try {
             citizenService.saveCitizen(citizen);
-            return new ResponseEntity<>("Citizen account created successfully!", HttpStatus.CREATED);
+            return ResponseEntity.ok(new MessageResponse("Successfully added citizen"));
         } catch (EmailAlreadyExistsException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
         }
     }
 
@@ -67,6 +75,5 @@ public class CitizenController {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
-
 }
 

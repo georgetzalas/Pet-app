@@ -9,14 +9,15 @@ import jakarta.persistence.*;
 @Entity
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Shelter extends User{
+
     @Enumerated(EnumType.STRING)
     private AccountStatus status = AccountStatus.PENDING;
 
-    @OneToMany(mappedBy = "shelter")
-    private List<Pet> pet;
-
     @Column
     private String Region;
+
+    @OneToMany(mappedBy = "shelter")
+    private List<Pet> pet;
 
     public Shelter(String name, String username, String email, String password, String region)
     {

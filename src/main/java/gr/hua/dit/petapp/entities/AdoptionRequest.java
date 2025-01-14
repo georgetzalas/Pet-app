@@ -17,12 +17,12 @@ public class AdoptionRequest {
     private Citizen citizen;
 
     @Column
-    private String status;
+    private AdoptionStatus status;
 
     public AdoptionRequest() {
     }
 
-    public AdoptionRequest(Pet pet, String status, Citizen citizen) {
+    public AdoptionRequest(Pet pet, AdoptionStatus status, Citizen citizen) {
         this.pet = pet;
         this.status = status;
         this.citizen = citizen;
@@ -52,11 +52,11 @@ public class AdoptionRequest {
         this.citizen = citizen;
     }
 
-    public String getStatus() {
+    public AdoptionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AdoptionStatus status) {
         this.status = status;
     }
 }

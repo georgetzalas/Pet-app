@@ -30,7 +30,14 @@ public class MedicalHistoryService
     @Transactional
     public MedicalHistory getMedicalHistory(Long id)
     {
-        return medicalHistoryRepository.findById(id).get();
+        return medicalHistoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Medical history not found"));
+    }
+
+    @Transactional
+    public void deleteMedicalHistory(Long id)
+    {
+        MedicalHistory medicalHistory = medicalHistoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Medical history not found"));
+        medicalHistoryRepository.deleteById(id);
     }
 
     @Transactional

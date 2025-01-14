@@ -52,7 +52,7 @@ public class CitizenServices {
 
     @Transactional
     public Citizen getCitizenById(Integer id) {
-        return citizenRepository.findById(id).orElse(null);
+        return citizenRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Citizen not found"));
     }
 
     @Transactional
@@ -65,10 +65,7 @@ public class CitizenServices {
 
     @Transactional
     public void deleteCitizen(Integer id) {
+        Citizen citizen = citizenRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Citizen not found"));
         citizenRepository.deleteById(id);
     }
-
-
-
-
 }

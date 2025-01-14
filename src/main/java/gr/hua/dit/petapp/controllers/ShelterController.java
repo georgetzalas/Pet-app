@@ -22,19 +22,24 @@ public class ShelterController {
 
     @PreAuthorize("hasRole('SHELTER')")
     @PostMapping
-    public ResponseEntity<String> addShelter(@RequestBody Shelter shelter) {
+    public ResponseEntity<?> addShelter(@RequestBody Shelter shelter) {
         try {
             shelterService.saveShelter(shelter);
-            return new ResponseEntity<>("Shelter account created successfully!", HttpStatus.CREATED);
+            return ResponseEntity.ok(new MessageResponse("Shelter account created successfully!"));
         } catch (EmailAlreadyExistsException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
         }
     }
     @PreAuthorize("hasRole('ADMIN') or hasRole('CITIZEN')")
     @GetMapping
-    public List<Shelter> getShelters()
+    public ResponseEntity<?> getShelters()
     {
-        return shelterService.getShelters();
+        List<Shelter> shelters = shelterService.getShelters();
+        if(shelters.isEmpty())
+        {
+            return ResponseEntity.ok(new MessageResponse("No shelter found"));
+        }
+        return ResponseEntity.ok(shelters);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

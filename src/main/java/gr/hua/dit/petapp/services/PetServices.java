@@ -1,9 +1,6 @@
 package gr.hua.dit.petapp.services;
 
-import gr.hua.dit.petapp.entities.Citizen;
-import gr.hua.dit.petapp.entities.Pet;
-import gr.hua.dit.petapp.entities.Shelter;
-import gr.hua.dit.petapp.entities.Vet;
+import gr.hua.dit.petapp.entities.*;
 import gr.hua.dit.petapp.repositories.CitizenRepository;
 import gr.hua.dit.petapp.repositories.PetRepository;
 import gr.hua.dit.petapp.repositories.ShelterRepository;
@@ -12,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,7 +33,7 @@ public class PetServices {
 
     @Transactional
     public Pet getPetById(Long id) {
-        return petRepository.findById(id).orElse(null);
+        return petRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pet not found"));
     }
 
     @Transactional
@@ -66,35 +64,11 @@ public class PetServices {
 
     @Transactional
     public void deletePet(Long id) {
+        Pet pet = petRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pet not found"));
         petRepository.deleteById(id);
     }
 
-    @Transactional
-    public void ApprovePetVet(Long id, Pet pet){
-        Pet pet1 = getPetById(id);
-        pet1.setHealthStatus(pet.getHealthStatus());
-        savePet(pet1);
-    }
-    @Transactional
-    public void ApprovePetAdmin(Long id, Pet pet){
-        Pet pet1 = getPetById(id);
-        pet1.setAge(pet.getAge());
-        pet1.setStatus(pet.getStatus());
-        pet1.setBreed(pet.getBreed());
-        pet1.setHeight(pet.getHeight());
-        pet1.setPicture(pet.getPicture());
-        pet1.setName(pet.getName());
-        pet1.setAdoptionStatus(pet.getAdoptionStatus());
-        pet1.setShelter(pet.getShelter());
-        pet1.setSex(pet.getSex());
-        pet1.setHealthStatus(pet.getHealthStatus());
-        pet1.setType(pet.getType());
-        pet1.setHeight(pet.getHeight());
-        savePet(pet1);
-
-
-    }
-    @Transactional
+    /*@Transactional
     public void ChangeStatusPet(Long id, Pet pet){
         Pet pet1 = getPetById(id);
         pet1.setAge(pet.getAge());
@@ -108,10 +82,56 @@ public class PetServices {
         pet1.setType(pet.getType());
         pet1.setHeight(pet.getHeight());
         savePet(pet1);
+    }*/
 
+    @Transactional
+    public void approvePetAdmin(Long petId) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
 
+        pet.setAdminApprovalStatus(ApprovalStatus.APPROVED);
+        petRepository.save(pet);
     }
 
+    @Transactional
+    public void rejectPetAdmin(Long petId) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
 
+        pet.setAdminApprovalStatus(ApprovalStatus.REJECTED);
+        petRepository.save(pet);
+    }
+
+    @Transactional
+    public void approvePetVet(Long petId) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
+
+        pet.setVetApprovalStatus(ApprovalStatus.APPROVED);
+        petRepository.save(pet);
+    }
+
+    @Transactional
+    public void rejectPetVet(Long petId) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + petId));
+
+        pet.setVetApprovalStatus(ApprovalStatus.REJECTED);
+        petRepository.save(pet);
+    }
+
+    // Get all pets waiting for approval
+    public List<Pet> getPendingPets() {
+        List<Pet> pets = petRepository.findAll();
+        List<Pet> pendingPets = new ArrayList<>();
+        for(Pet pet : pets)
+        {
+            if(pet.getAdminApprovalStatus().equals(AccountStatus.PENDING) || pet.getVetApprovalStatus().equals(AccountStatus.PENDING))
+            {
+                pendingPets.add(pet);
+            }
+        }
+        return pendingPets;
+    }
 }
 

@@ -48,8 +48,6 @@ public class Vet extends User {
         this.Surname = Surname;
     }
 
-
-
     @Enumerated(EnumType.STRING)
     private AccountStatus status = AccountStatus.PENDING; // Default to PENDING
 

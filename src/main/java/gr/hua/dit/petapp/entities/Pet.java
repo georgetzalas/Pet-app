@@ -34,6 +34,11 @@ public class Pet {
     private String sex;
     //@Column
     //private String Shelter;
+    @Enumerated(EnumType.STRING)
+    private ApprovalStatus adminApprovalStatus = ApprovalStatus.PENDING;
+
+    @Enumerated(EnumType.STRING)
+    private ApprovalStatus vetApprovalStatus = ApprovalStatus.PENDING;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
@@ -58,19 +63,27 @@ public class Pet {
     @JoinColumn(name="requestid")
     private AdoptionRequest adoptionRequest;*/
 
-    @Enumerated(EnumType.STRING)
-    private ApprovalStatus status;
-
     public Pet(){
 
     }
 
-    public Pet(Citizen citizen,Vet vet,MedicalHistory medicalHistory, /*AdoptionRequest adoptionRequest,*/ApprovalStatus status){
-        this.citizen = citizen;
-        this.vet = vet;
+    public Pet(String name, String type, int healthStatus, String adoptionStatus, int age, float weight, String picture, float height, String breed, String sex, ApprovalStatus adminApprovalStatus, ApprovalStatus vetApprovalStatus, MedicalHistory medicalHistory, Shelter shelter, Vet vet, Citizen citizen) {
+        this.name = name;
+        this.type = type;
+        this.healthStatus = healthStatus;
+        this.adoptionStatus = adoptionStatus;
+        this.age = age;
+        this.weight = weight;
+        this.picture = picture;
+        this.height = height;
+        this.breed = breed;
+        this.sex = sex;
+        this.adminApprovalStatus = adminApprovalStatus;
+        this.vetApprovalStatus = vetApprovalStatus;
         this.medicalHistory = medicalHistory;
-        //this.adoptionRequest = adoptionRequest;
-        this.status = status;
+        this.shelter = shelter;
+        this.vet = vet;
+        this.citizen = citizen;
     }
 
     public Long getID() {
@@ -161,22 +174,6 @@ public class Pet {
         this.sex = sex;
     }
 
-    /*public String getShelter() {
-        return Shelter;
-    }
-
-    public void setShelter(String shelter) {
-        Shelter = shelter;
-    }*/
-
-    public ApprovalStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ApprovalStatus status) {
-        this.status = status;
-    }
-
     public Citizen getCitizen() {
         return citizen;
     }
@@ -209,13 +206,21 @@ public class Pet {
         this.medicalHistory = medicalHistory;
     }
 
-    /*public AdoptionRequest getAdoptionRequest() {
-        return adoptionRequest;
+    public ApprovalStatus getAdminApprovalStatus() {
+        return adminApprovalStatus;
     }
 
-    public void setAdoptionRequest(AdoptionRequest adoptionRequest) {
-        this.adoptionRequest = adoptionRequest;
-    }*/
+    public void setAdminApprovalStatus(ApprovalStatus adminApprovalStatus) {
+        this.adminApprovalStatus = adminApprovalStatus;
+    }
+
+    public ApprovalStatus getVetApprovalStatus() {
+        return vetApprovalStatus;
+    }
+
+    public void setVetApprovalStatus(ApprovalStatus vetApprovalStatus) {
+        this.vetApprovalStatus = vetApprovalStatus;
+    }
 
     @Override
     public String toString() {
@@ -231,12 +236,12 @@ public class Pet {
                 ", height=" + height +
                 ", breed='" + breed + '\'' +
                 ", sex='" + sex + '\'' +
-                //", Shelter='" + Shelter + '\'' +
+                ", adminApprovalStatus=" + adminApprovalStatus +
+                ", vetApprovalStatus=" + vetApprovalStatus +
                 ", citizen=" + citizen +
                 ", vet=" + vet +
                 ", shelter=" + shelter +
                 ", medicalHistory=" + medicalHistory +
-                ", status=" + status +
                 '}';
     }
 }

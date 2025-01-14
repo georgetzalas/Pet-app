@@ -18,7 +18,7 @@ public class Citizen extends User{
     private List<Pet> pet;
 
     @Enumerated(EnumType.STRING)
-    private AccountStatus status;
+    private AccountStatus status = AccountStatus.PENDING;
 
 
     public Citizen(String name, String username, String email, String password, String surname)

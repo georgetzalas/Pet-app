@@ -53,7 +53,7 @@ public class VetServices {
 
     @Transactional
     public Vet getVetById(Integer id) {
-        return vetRepository.findById(id).orElse(null);
+        return vetRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Vet not found"));
     }
 
     @Transactional
@@ -66,6 +66,7 @@ public class VetServices {
 
     @Transactional
     public void deleteVet(Integer id) {
+        Vet vet = vetRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Vet not found"));
         vetRepository.deleteById(id);
     }
 }
