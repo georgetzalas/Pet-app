@@ -2,23 +2,23 @@
 Ονομασία εργασίας: Pet-app
 
 Μέλη ομάδας:
-Γιώργος Τζάλας - it2022102
-Παναγιώτα Σφυρίδη - it2022101
+Γιώργος Τζάλας - it2022102,
+Παναγιώτα Σφυρίδη - it2022101,
 Ευαγγελία Μπαλίου - it2022068
 
 Για την υλοποιήση του backend χρησιμοποιήσαμε τα παρακάτω:
-Java
-Spring Boot
-Hibernate ORM
-PostgreSQL
-Spring Security
-Maven
-Επιπλέον χρησιμοποιήσαμε Email Server, για την αποστολή αυτόματων ενημερωτικών μηνυμάτων προς τους χρήστες του συστήματος, προσθέτοντας στον κώδικα μας το παρακάτω depedency:
+-Java
+-Spring Boot
+-Hibernate ORM
+-PostgreSQL
+-Spring Security
+-Maven
+-Επιπλέον χρησιμοποιήσαμε Email Server, για την αποστολή αυτόματων ενημερωτικών μηνυμάτων προς τους χρήστες του συστήματος, προσθέτοντας στον κώδικα μας το παρακάτω depedency:
 <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
+	groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-mail</artifactId>
 </dependency>
-Το email (της πλατφόρμας) απο το οποίο αποστέλλονται τα μηνύματα είναι το petappkat@gmail.com
+-Το email (της πλατφόρμας) απο το οποίο αποστέλλονται τα μηνύματα είναι το petappkat@gmail.com
 
 Στοιχεία της βάσης μας:
 spring.datasource.username=pet_app_pjhx_user
