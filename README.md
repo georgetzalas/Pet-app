@@ -14,10 +14,10 @@
 -Spring Security\
 -Maven\
 -Επιπλέον χρησιμοποιήσαμε Email Server, για την αποστολή αυτόματων ενημερωτικών μηνυμάτων προς τους χρήστες του συστήματος, προσθέτοντας στον κώδικα μας το παρακάτω depedency:\
-<dependency>\
+< dependency >\
 	groupId>org.springframework.boot</groupId>\
 	<artifactId>spring-boot-starter-mail</artifactId>\
-</dependency>\
+</ dependency >\
 -Το email (της πλατφόρμας) απο το οποίο αποστέλλονται τα μηνύματα είναι το petappkat@gmail.com
 
 Στοιχεία της βάσης μας:\
@@ -41,6 +41,4 @@ spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.PostgreSQLDialect
 - **PostgreSQL** με βάση δεδομένων που ονομάζεται `pet_app_pjhx_user`.
 - Ενημέρωση του "application.properties" με τα στοιχεία που δώθηκαν παραπάνω.
 - git clone https://github.com/Flektos/Pet-app
-- cd Pet-app
-- mvn clean install
-- mvn spring-boot:run
+- το ανοίγουμε μέσω IntelliJ και πατάμε 'Run PetappApplication'
