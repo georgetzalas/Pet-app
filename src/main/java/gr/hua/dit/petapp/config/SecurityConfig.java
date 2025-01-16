@@ -50,12 +50,16 @@ public class SecurityConfig {
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/actuator/health/**").permitAll() // Δημόσια endpoints
-                        .requestMatchers("/api/admin/").hasAnyRole("ADMIN","VET")
-                        .requestMatchers("/api/shelter/").hasAnyRole("SHELTER","ADMIN","CITIZEN")
-                        .requestMatchers("/api/vet/").hasAnyRole("VET","SHELTER","ADMIN")
-                        .requestMatchers("/api/citizen/").hasAnyRole("CITIZEN","ADMIN","VET","SHELTER")
+                        .requestMatchers("/api/admin/**" +
+                                "").hasAnyRole("ADMIN","VET")
+                        .requestMatchers("/api/shelter/**").hasAnyRole("SHELTER","ADMIN","CITIZEN")
+                        .requestMatchers("/api/vet/**").hasAnyRole("VET","SHELTER","ADMIN")
+                        .requestMatchers("/api/citizen/**").hasAnyRole("CITIZEN","ADMIN","VET","SHELTER")
                         .requestMatchers("/api/pets/**").hasAnyRole("ADMIN", "SHELTER", "VET", "CITIZEN")
                         .requestMatchers("/api/email/**").hasAnyRole("ADMIN","SHELTER","VET","CITIZEN")
+                        .requestMatchers("/api/users").hasAnyRole("ADMIN")
+                        .requestMatchers("/api/medical-history/**").hasAnyRole("VET")
+                        .requestMatchers("/api/adoption-requests/**").hasAnyRole("ADMIN", "SHELTER", "CITIZEN")
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v2/api-docs/**",

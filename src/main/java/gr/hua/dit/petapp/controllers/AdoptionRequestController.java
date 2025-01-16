@@ -1,10 +1,9 @@
 package gr.hua.dit.petapp.controllers;
 
 import gr.hua.dit.petapp.entities.AdoptionRequest;
+import org.springframework.http.ResponseEntity;
 import gr.hua.dit.petapp.payload.response.MessageResponse;
 import gr.hua.dit.petapp.services.AdoptionRequestService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +59,32 @@ public class AdoptionRequestController
             AdoptionRequest adoptionRequest = adoptionRequestService.getAdoptionRequest(id);
             adoptionRequestService.deleteAdoptionRequest(id);
             return ResponseEntity.ok(new MessageResponse("Adoption Request deleted"));
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
+    }
+
+    @PreAuthorize("hasRole('SHELTER')")
+    @PostMapping("/change-status-approve/{id}")
+    public ResponseEntity<?> adoptionStatusApprove(@PathVariable Integer id)
+    {
+        try
+        {
+            adoptionRequestService.adoptionStatusApprove(id);
+            return ResponseEntity.ok(new MessageResponse("Adoption Request approved"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
+    }
+
+    @PreAuthorize("hasRole('SHELTER')")
+    @PostMapping("/change-status-reject/{id}")
+    public ResponseEntity<?> adoptionStatusReject(@PathVariable Integer id)
+    {
+        try
+        {
+            adoptionRequestService.adoptionStatusReject(id);
+            return ResponseEntity.ok(new MessageResponse("Adoption Request rejected"));
         }catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }

@@ -70,4 +70,19 @@ public class AdoptionRequestService {
         AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
         adoptionRequestRepository.delete(adoptionRequest);
     }
+
+    @Transactional
+    public void adoptionStatusApprove(Integer id)
+    {
+        AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
+        adoptionRequest.setStatus(AdoptionStatus.APPROVED);
+    }
+
+    @Transactional
+    public void adoptionStatusReject(Integer id)
+    {
+        AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
+        adoptionRequest.setStatus(AdoptionStatus.REJECTED);
+    }
+
 }

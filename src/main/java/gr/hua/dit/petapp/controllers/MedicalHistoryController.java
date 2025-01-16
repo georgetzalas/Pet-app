@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/medical_history")
+@RequestMapping("/api/medical-history")
 public class MedicalHistoryController
 {
     private final MedicalHistoryService medicalHistoryService;

@@ -18,6 +18,9 @@ public class MedicalHistory {
     @JoinColumn(name = "petid")
     private Pet pet;
 
+    @Enumerated(EnumType.STRING)
+    private HealthStatus healthStatus = HealthStatus.NOT_SUMBITED;
+
     public MedicalHistory() {
     }
 
@@ -48,6 +51,14 @@ public class MedicalHistory {
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    public HealthStatus getHealthStatus() {
+        return healthStatus;
+    }
+
+    public void setHealthStatus(HealthStatus healthStatus) {
+        this.healthStatus = healthStatus;
     }
 
     @Override
