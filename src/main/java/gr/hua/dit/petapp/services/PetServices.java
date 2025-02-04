@@ -45,19 +45,20 @@ public class PetServices {
         if(pet.getCitizen() != null)
         {
             citizen = citizenRepository.findById((pet.getCitizen().getId().intValue())).get();
+            pet.setCitizen(citizen);
         }
+
         if(pet.getVet() != null)
         {
             vet = vetRepository.findById((pet.getVet().getId().intValue())).get();
+            pet.setVet(vet);
         }
         if(pet.getShelter() != null)
         {
             shelter = shelterRepository.findById(pet.getShelter().getId().intValue()).get();
+            pet.setShelter(shelter);
         }
 
-        pet.setCitizen(citizen);
-        pet.setVet(vet);
-        pet.setShelter(shelter);
 
         petRepository.save(pet);
     }
