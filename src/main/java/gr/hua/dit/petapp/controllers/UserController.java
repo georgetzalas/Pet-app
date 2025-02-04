@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.controllers;
 
 
 import gr.hua.dit.petapp.entities.AdoptionRequest;
+import gr.hua.dit.petapp.entities.User;
 import gr.hua.dit.petapp.payload.response.MessageResponse;
 import gr.hua.dit.petapp.services.AdoptionRequestService;
 import gr.hua.dit.petapp.services.UserService;
@@ -54,7 +55,7 @@ public class UserController {
     // Endpoint to fetch all accounts
     @GetMapping("/accounts")
     public ResponseEntity<?> getAllAccounts() {
-        List<Map<String, Object>> accounts = userService.getAllAccounts();
+        List<User> accounts = userService.getAllAccounts();
         if(accounts.isEmpty())
         {
             return ResponseEntity.ok(new MessageResponse("No accounts found."));
@@ -63,12 +64,24 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    // Endpoint to fetch all accounts
+    @GetMapping("/accounts/{id}")
+    public ResponseEntity<?> getAllAccounts(@PathVariable Integer id) {
+        User user = userService.getAccount(id);
+        if(user == null)
+        {
+            return ResponseEntity.ok(new MessageResponse("No user found."));
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     // Endpoint to delete an account by email
-    @DeleteMapping("/account/delete")
-    public ResponseEntity<MessageResponse> deleteAccount(@RequestParam String email) {
+    @DeleteMapping("/account/delete/{id}")
+    public ResponseEntity<MessageResponse> deleteAccount(@PathVariable Integer id) {
         try {
-            userService.deleteAccount(email);
-            return ResponseEntity.ok(new MessageResponse("Account deleted successfully, and an email notification has been sent."));
+            userService.deleteAccount(id);
+            return ResponseEntity.ok(new MessageResponse("Account deleted successfully"));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }

@@ -2,6 +2,7 @@ package gr.hua.dit.petapp.services;
 
 import gr.hua.dit.petapp.entities.*;
 import gr.hua.dit.petapp.repositories.*;
+import jdk.jshell.JShellException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,68 +78,65 @@ public class UserService {
     }
 
     // Fetch all accounts
-    public List<Map<String, Object>> getAllAccounts() {
-        List<Map<String, Object>> accounts = new ArrayList<>();
+    public List<User> getAllAccounts() {
+        List<User> accounts = new ArrayList<>();
 
-        // Fetch shelters
-        shelterRepository.findAll().forEach(shelter -> {
-            Map<String, Object> account = new HashMap<>();
-            account.put("id", shelter.getId());
-            account.put("type", "Shelter");
-            account.put("name", shelter.getName());
-            account.put("email", shelter.getEmail());
-            account.put("region", shelter.getRegion());
-            accounts.add(account);
-        });
+        List<Shelter> shelets = shelterRepository.findAll();
+        List<Vet> vets = vetRepository.findAll();
+        List<Citizen> citizens = citizenRepository.findAll();
 
-        // Fetch vets
-        vetRepository.findAll().forEach(vet -> {
-            Map<String, Object> account = new HashMap<>();
-            account.put("id", vet.getId());
-            account.put("type", "Vet");
-            account.put("name", vet.getName());
-            account.put("email", vet.getEmail());
-            account.put("surname", vet.getSurname());
-            accounts.add(account);
-        });
-
-        // Fetch citizens
-        citizenRepository.findAll().forEach(citizen -> {
-            Map<String, Object> account = new HashMap<>();
-            account.put("id", citizen.getId());
-            account.put("type", "Citizen");
-            account.put("name", citizen.getName());
-            account.put("email", citizen.getEmail());
-            account.put("surname", citizen.getSurname());
-            accounts.add(account);
-        });
+        accounts.addAll(shelets);
+        accounts.addAll(vets);
+        accounts.addAll(citizens);
 
         return accounts;
     }
     @Transactional
-    public void deleteAccount(String email) {
-        Optional<Shelter> shelter = shelterRepository.findByEmail(email);
+    public void deleteAccount(Integer id) {
+        Optional<Shelter> shelter = shelterRepository.findById(id);
         if (shelter.isPresent()) {
             shelterRepository.delete(shelter.get());
-            emailService.sendDeletionNotification(email, "Shelter account deleted successfully.");
+            emailService.sendDeletionNotification(shelter.get().getEmail(), "Shelter account deleted successfully.");
             return;
         }
 
-        Optional<User> vet = userRepository.findByEmail(email);
+        Optional<Vet> vet = vetRepository.findById(id);
         if (vet.isPresent()) {
-            System.out.print("okeyy");
             userRepository.deleteById(vet.get().getId());
-            emailService.sendDeletionNotification(email, "Vet account deleted successfully.");
+            emailService.sendDeletionNotification(vet.get().getEmail(), "Vet account deleted successfully.");
             return;
         }
 
-        Optional<Citizen> citizen = citizenRepository.findByEmail(email);
+        Optional<Citizen> citizen = citizenRepository.findById(id);
         if (citizen.isPresent()) {
             citizenRepository.delete(citizen.get());
-            emailService.sendDeletionNotification(email, "Citizen account deleted successfully.");
+            emailService.sendDeletionNotification(citizen.get().getEmail(), "Citizen account deleted successfully.");
             return;
         }
 
-        throw new IllegalArgumentException("Account not found with email: " + email);
+        throw new IllegalArgumentException("Account not found with id: " + id);
     }
+
+    @Transactional
+    public User getAccount(Integer id) {
+        Optional<Shelter> shelter = shelterRepository.findById(id);
+        if(shelter.isPresent()) {
+            return shelter.get();
+        }
+
+        Optional<Vet> vet = vetRepository.findById(id);
+        if(vet.isPresent())
+        {
+            return vet.get();
+        }
+
+        Optional<Citizen> citizen = citizenRepository.findById(id);
+        if(citizen.isPresent())
+        {
+            return citizen.get();
+        }
+
+        throw new IllegalArgumentException("Account not found with id: " + id);
+    }
+
 }

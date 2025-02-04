@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,9 @@ public class PetController {
     @PreAuthorize("hasRole('ROLE_SHELTER')")
     @PostMapping
     public void addPet(@RequestBody Pet pet) {
+        //byte[] pictureBytes = Base64.getDecoder().decode(pet.getStrPicture());
+        //pet.setPicture(pictureBytes);
+        pet.setStrPicture(null);
         petService.savePet(pet);
     }
 

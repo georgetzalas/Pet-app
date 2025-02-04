@@ -1,6 +1,7 @@
 package gr.hua.dit.petapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -17,17 +18,19 @@ public class Pet {
     @Column
     private String type;
     @Column
-    private int healthStatus;
-    @Column
     private String adoptionStatus;
     @Column
-    private int age;
+    private float age;
+    /*@Lob
+    @Basic(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private byte[] picture;*/
     @Column
-    private String picture;
+    private String strPicture;
     @Column
     private float weight;
     @Column
-    private float height ;
+    private float height;
     @Column
     private String breed;
     @Column
@@ -67,14 +70,13 @@ public class Pet {
 
     }
 
-    public Pet(String name, String type, int healthStatus, String adoptionStatus, int age, float weight, String picture, float height, String breed, String sex, ApprovalStatus adminApprovalStatus, ApprovalStatus vetApprovalStatus, MedicalHistory medicalHistory, Shelter shelter, Vet vet, Citizen citizen) {
+    public Pet(String name, String type, String adoptionStatus, float age, float weight, /*byte[] picture,*/ float height, String breed, String sex, ApprovalStatus adminApprovalStatus, ApprovalStatus vetApprovalStatus, MedicalHistory medicalHistory, Shelter shelter, Vet vet, Citizen citizen) {
         this.name = name;
         this.type = type;
-        this.healthStatus = healthStatus;
         this.adoptionStatus = adoptionStatus;
         this.age = age;
         this.weight = weight;
-        this.picture = picture;
+        //this.picture = picture;
         this.height = height;
         this.breed = breed;
         this.sex = sex;
@@ -110,14 +112,6 @@ public class Pet {
         this.type = type;
     }
 
-    public int getHealthStatus() {
-        return healthStatus;
-    }
-
-    public void setHealthStatus(int healthStatus) {
-        this.healthStatus = healthStatus;
-    }
-
     public String getAdoptionStatus() {
         return adoptionStatus;
     }
@@ -126,21 +120,21 @@ public class Pet {
         this.adoptionStatus = adoptionStatus;
     }
 
-    public int getAge() {
+    public float getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(float age) {
         this.age = age;
     }
 
-    public String getPicture() {
+    /*public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
-    }
+    }*/
 
     public float getWeight() {
         return weight;
@@ -222,16 +216,23 @@ public class Pet {
         this.vetApprovalStatus = vetApprovalStatus;
     }
 
+    public String getStrPicture() {
+        return strPicture;
+    }
+
+    public void setStrPicture(String strPicture) {
+        this.strPicture = strPicture;
+    }
+
     @Override
     public String toString() {
         return "Pet{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", healthStatus=" + healthStatus +
                 ", adoptionStatus='" + adoptionStatus + '\'' +
                 ", age=" + age +
-                ", picture='" + picture + '\'' +
+                //", picture='" + picture + '\'' +
                 ", weight=" + weight +
                 ", height=" + height +
                 ", breed='" + breed + '\'' +
