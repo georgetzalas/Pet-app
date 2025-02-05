@@ -52,11 +52,10 @@ public class Pet {
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="vetid")
     private Vet vet;
-    
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "shelterid")
-    @JsonIgnore
     private Shelter shelter;
 
     @OneToOne(cascade = CascadeType.ALL)
