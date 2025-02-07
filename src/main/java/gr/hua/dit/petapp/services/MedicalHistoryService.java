@@ -34,6 +34,23 @@ public class MedicalHistoryService
     }
 
     @Transactional
+    public MedicalHistory getMedicalHistoryByPetId(Long id)
+    {
+        Pet pet = petRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pet not found"));
+        List<MedicalHistory> medicalHistories = getMedicalHistories();
+
+        for(MedicalHistory medicalHistory : medicalHistories)
+        {
+            if(medicalHistory.getPet().getID() == pet.getID())
+            {
+                return medicalHistory;
+            }
+        }
+
+        throw new IllegalArgumentException("Medical history not found");
+    }
+
+    @Transactional
     public void saveMedicalHistory(MedicalHistory medicalHistory)
     {
         Pet pet = medicalHistory.getPet();

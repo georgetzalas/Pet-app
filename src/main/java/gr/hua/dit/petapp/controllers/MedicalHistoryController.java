@@ -47,6 +47,22 @@ public class MedicalHistoryController
     }
 
     @PreAuthorize("hasRole('VET')")
+    @GetMapping("/pet/{id}")
+    public ResponseEntity<?> showMedicalHistoryByPetId(@PathVariable Long id)
+    {
+        try
+        {
+            MedicalHistory medicalHistory = medicalHistoryService.getMedicalHistoryByPetId(id);
+            return ResponseEntity.ok(medicalHistory);
+        }catch(IllegalArgumentException e)
+        {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
+    }
+
+
+
+    @PreAuthorize("hasRole('VET')")
     @PostMapping("/{id}")
     public void addMedicalHistory(@PathVariable Long id, @RequestBody MedicalHistory medicalHistory)
     {

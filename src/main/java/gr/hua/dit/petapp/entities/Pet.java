@@ -56,15 +56,16 @@ public class Pet {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "shelterid")
+    @JsonIgnore
     private Shelter shelter;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="historyid")
     private MedicalHistory medicalHistory;
 
-    /*@OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="requestid")
-    private AdoptionRequest adoptionRequest;*/
+    private AdoptionRequest adoptionRequest;
 
     public Pet(){
 
