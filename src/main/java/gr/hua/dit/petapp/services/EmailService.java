@@ -54,7 +54,7 @@ public class EmailService {
     public void ShelterProgram(long id ){
         String name = userRepository.findById(id).get().getName();
         String email = userRepository.findById(id).get().getEmail();
-        String day="Mondey";
+        String day="Monday";
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("Visiting Program");
