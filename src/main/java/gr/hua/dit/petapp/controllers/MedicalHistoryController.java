@@ -77,6 +77,13 @@ public class MedicalHistoryController
     }
 
     @PreAuthorize("hasRole('VET')")
+    @PutMapping
+    public void updateMedicalHistory(@RequestBody MedicalHistory medicalHistory)
+    {
+        medicalHistoryService.updateMedicalHistory(medicalHistory);
+    }
+
+    @PreAuthorize("hasRole('VET')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMedicalHistory(@PathVariable Long id) {
         try {

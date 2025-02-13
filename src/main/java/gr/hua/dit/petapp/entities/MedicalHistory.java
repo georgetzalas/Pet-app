@@ -33,7 +33,7 @@ public class MedicalHistory {
     private String vetNotes;
 
     @Column
-    private LocalDate date;
+    private String date;
 
     public MedicalHistory() {
     }
@@ -83,11 +83,11 @@ public class MedicalHistory {
         this.treatment = treatment;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
