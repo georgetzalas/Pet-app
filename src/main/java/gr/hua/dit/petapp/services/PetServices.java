@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PetServices {
@@ -134,5 +135,38 @@ public class PetServices {
         }
         return pendingPets;
     }
+
+    @Transactional
+    public List<Pet> searchPets(String region, String type) {
+        if (region != null && type != null) {
+            return petRepository.findByShelterRegionAndType(region, type);
+        } else if (region != null) {
+            return petRepository.findByShelterRegion(region);
+        } else if (type != null) {
+            return petRepository.findByType(type);
+        } else {
+            return petRepository.findAll();
+        }
+    }
+
+    @Transactional
+    // New method to get distinct pet types
+    public List<String> getAllPetTypes() {
+        return petRepository.findAll()
+                .stream()
+                .map(Pet::getType)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<String> getAllShelterRegions() {
+        return shelterRepository.findAll()
+                .stream()
+                .map(Shelter::getRegion)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }
 

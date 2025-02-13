@@ -15,6 +15,7 @@ import java.util.List;
 public class PetController {
     private final PetServices petService;
 
+
     public PetController(PetServices petService) {
         this.petService = petService;
     }
@@ -137,5 +138,29 @@ public class PetController {
     public void ChangeStatus(@PathVariable Integer id,@RequestBody Pet pet){
         petService.ChangeStatusPet(id,pet);
     }*/
-}
 
+    @PreAuthorize("hasRole('CITIZEN')")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchPets(
+            @RequestParam(required = false) String region,
+            @RequestParam(required = false) String type) {
+        List<Pet> filteredPets = petService.searchPets(region, type);
+        if (filteredPets.isEmpty()) {
+            return ResponseEntity.ok(new MessageResponse("No pets found matching criteria"));
+        }
+        return ResponseEntity.ok(filteredPets);
+    }
+
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getAllPetTypes() {
+        List<String> types = petService.getAllPetTypes();
+        return ResponseEntity.ok(types);
+    }
+
+    @GetMapping("/regions")
+    public ResponseEntity<List<String>> getAllShelterRegions() {
+        List<String> regions = petService.getAllShelterRegions();
+        return ResponseEntity.ok(regions);
+    }
+
+}
