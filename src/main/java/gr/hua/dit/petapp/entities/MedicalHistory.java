@@ -15,12 +15,12 @@ public class MedicalHistory {
 
     @ManyToOne
     @JoinColumn(name = "vetid")
-    @JsonIgnoreProperties("medicalHistory")
+    @JsonIgnoreProperties({"medicalHistory", "vet"})
     private Vet vet;
 
     @OneToOne
     @JoinColumn(name = "petid")
-    @JsonIgnoreProperties("medicalHistory")
+    @JsonIgnoreProperties({"medicalHistory", "pet"})
     private Pet pet;
 
     @Enumerated(EnumType.STRING)

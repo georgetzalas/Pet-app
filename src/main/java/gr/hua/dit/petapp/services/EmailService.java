@@ -27,13 +27,15 @@ public class EmailService {
     }
 
     @Transactional
-    public void sendVisitRequestEmail(String citizenName, String shelterEmail) {
+    public void sendVisitRequestEmail(Long id, String emailCitizen) {
+        String shelterEmail = userRepository.findById(id).get().getEmail();
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(shelterEmail); // Email καταφυγίου
         message.setSubject("Αίτημα Επίσκεψης από Πολίτη");
 
         // Προκαθορισμένο μήνυμα
-        String text = "Ο πολίτης " + citizenName + " εκφράζει ενδιαφέρον για επίσκεψη στο χώρο σας. " +
+        String text = "Ο πολίτης " + emailCitizen + " εκφράζει ενδιαφέρον για επίσκεψη στο χώρο σας. " +
                 "\nΠαρακαλώ επικοινωνήστε μαζί του για να κανονιστεί η επίσκεψη.\n" +
                 "\nΜε εκτίμηση,\nΗ Ομάδα PetApp";
 
@@ -51,9 +53,8 @@ public class EmailService {
     }
 
     @Transactional
-    public void ShelterProgram(long id ){
-        String name = userRepository.findById(id).get().getName();
-        String email = userRepository.findById(id).get().getEmail();
+    public void ShelterProgram(String email){
+        String name = userRepository.findByEmail(email).get().getName();
         String day="Monday";
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
@@ -63,13 +64,13 @@ public class EmailService {
     }
 
     @Transactional
-    public void sendRequestVisit(long id ){
+    public void sendRequestVisit(Long id){
         String name = userRepository.findById(id).get().getName();
         String email = userRepository.findById(id).get().getEmail();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("Request visit");
-        mailMessage.setText("The Citizen with name: "+ name +"has requested to pay you a visit !");
+        mailMessage.setText("The Citizen with name: "+ name +  " has requested to pay you a visit !");
         mailSender.send(mailMessage);
     }
 
