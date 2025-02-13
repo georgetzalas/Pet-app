@@ -1,14 +1,11 @@
 package gr.hua.dit.petapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,17 +43,22 @@ public class Pet {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "citizenid")
+    //@JsonBackReference("citizen-pet")
+    @JsonIgnoreProperties("pet")
     private Citizen citizen;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="vetid")
+    //@JsonBackReference("vet-pet")
+    @JsonIgnoreProperties("pet")
     private Vet vet;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "shelterid")
-    @JsonIgnore
+    //@JsonBackReference("shelter-pet")
+    @JsonIgnoreProperties("pet")
     private Shelter shelter;
 
     @OneToOne(cascade = CascadeType.ALL)

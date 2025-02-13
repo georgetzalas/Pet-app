@@ -1,5 +1,6 @@
 package gr.hua.dit.petapp.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -12,10 +13,12 @@ public class MedicalHistory {
 
     @ManyToOne
     @JoinColumn(name = "vetid")
+    @JsonIgnoreProperties({"vet", "medicalHistory"})
     private Vet vet;
 
     @OneToOne
     @JoinColumn(name = "petid")
+    @JsonIgnoreProperties({"pet", "medicalHistory"})
     private Pet pet;
 
     @Enumerated(EnumType.STRING)

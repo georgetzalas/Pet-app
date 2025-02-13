@@ -1,5 +1,6 @@
 package gr.hua.dit.petapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,10 +11,12 @@ public class AdoptionRequest {
 
     @ManyToOne
     @JoinColumn(name = "petid")
+    @JsonIgnoreProperties({"citizen", "adoptionRequest"})
     private Pet pet;
 
     @ManyToOne
     @JoinColumn(name = "citizenid")
+    @JsonIgnoreProperties({"pet", "adoptionRequestList"})
     private Citizen citizen;
 
     @Enumerated(EnumType.STRING)
