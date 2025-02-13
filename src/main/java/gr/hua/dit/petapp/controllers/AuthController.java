@@ -4,6 +4,7 @@ import gr.hua.dit.petapp.entities.*;
 import gr.hua.dit.petapp.payload.request.*;
 import gr.hua.dit.petapp.payload.response.JwtResponse;
 import gr.hua.dit.petapp.repositories.*;
+import gr.hua.dit.petapp.services.EmailService;
 import gr.hua.dit.petapp.services.UserDetailsImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -42,8 +43,9 @@ public class AuthController {
     RoleRepository roleRepository;
     BCryptPasswordEncoder encoder;
     JwtUtils jwtUtils;
+    EmailService emailService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder, JwtUtils jwtUtils, VetRepository vetRepository, ShelterRepository shelterRepository, CitizenRepository citizenRepository, AdminRepository adminRepository) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder encoder, JwtUtils jwtUtils, VetRepository vetRepository, ShelterRepository shelterRepository, CitizenRepository citizenRepository, AdminRepository adminRepository, EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -53,6 +55,7 @@ public class AuthController {
         this.shelterRepository = shelterRepository;
         this.citizenRepository = citizenRepository;
         this.adminRepository = adminRepository;
+        this.emailService = emailService;
     }
 
     @PostConstruct
@@ -230,6 +233,8 @@ public class AuthController {
 
         vet.setRoles(roles);
         vetRepository.save(vet);
+        emailService.sendWelcomeEmail(signUpRequest.getEmail());
+
         return ResponseEntity.ok(new MessageResponse("Vet registered successfully!"));
     }
 
@@ -266,6 +271,7 @@ public class AuthController {
         shelter.setRoles(roles);
         System.out.println(shelter);
         shelterRepository.save(shelter);
+        emailService.sendWelcomeEmail(signUpRequest.getEmail());
 
         return ResponseEntity.ok(new MessageResponse("Shelter registered successfully!"));
     }
@@ -302,6 +308,7 @@ public class AuthController {
 
         citizen.setRoles(roles);
         citizenRepository.save(citizen);
+        emailService.sendWelcomeEmail(signUpRequest.getEmail());
 
         return ResponseEntity.ok(new MessageResponse("Citizen registered successfully!"));
     }

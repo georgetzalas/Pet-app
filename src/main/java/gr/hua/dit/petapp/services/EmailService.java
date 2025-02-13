@@ -72,4 +72,15 @@ public class EmailService {
         mailMessage.setText("The Citizen with name: "+ name +"has requested to pay you a visit !");
         mailSender.send(mailMessage);
     }
+
+    @Transactional
+    public void sendWelcomeEmail(String email) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Welcome to Pet-App!");
+        mailMessage.setText("Dear User,\n\nWelcome to Pet-App! We are excited to have you on board.\n\nBest Regards,\nPet-App Team");
+
+        mailSender.send(mailMessage);
+    }
 }

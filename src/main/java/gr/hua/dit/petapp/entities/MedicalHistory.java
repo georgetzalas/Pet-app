@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 //@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class MedicalHistory {
@@ -23,6 +25,15 @@ public class MedicalHistory {
 
     @Enumerated(EnumType.STRING)
     private HealthStatus healthStatus = HealthStatus.NOT_SUMBITED;
+
+    @Column
+    private String treatment;
+
+    @Column
+    private String vetNotes;
+
+    @Column
+    private LocalDate date;
 
     public MedicalHistory() {
     }
@@ -62,6 +73,30 @@ public class MedicalHistory {
 
     public void setHealthStatus(HealthStatus healthStatus) {
         this.healthStatus = healthStatus;
+    }
+
+    public String getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getVetNotes() {
+        return vetNotes;
+    }
+
+    public void setVetNotes(String vetNotes) {
+        this.vetNotes = vetNotes;
     }
 
     @Override
