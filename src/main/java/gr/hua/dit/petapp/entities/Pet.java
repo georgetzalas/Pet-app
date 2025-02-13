@@ -63,10 +63,12 @@ public class Pet {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="historyid")
+    @JsonIgnoreProperties("pet")
     private MedicalHistory medicalHistory;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="requestid")
+    @JsonIgnoreProperties("pet")
     private AdoptionRequest adoptionRequest;
 
     public Pet(){

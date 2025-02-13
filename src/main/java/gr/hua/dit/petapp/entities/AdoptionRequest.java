@@ -11,12 +11,12 @@ public class AdoptionRequest {
 
     @ManyToOne
     @JoinColumn(name = "petid")
-    @JsonIgnoreProperties({"citizen", "adoptionRequest"})
+    @JsonIgnoreProperties("adoptionRequest")
     private Pet pet;
 
     @ManyToOne
     @JoinColumn(name = "citizenid")
-    @JsonIgnoreProperties({"pet", "adoptionRequestList"})
+    @JsonIgnoreProperties("adoptionRequestList")
     private Citizen citizen;
 
     @Enumerated(EnumType.STRING)

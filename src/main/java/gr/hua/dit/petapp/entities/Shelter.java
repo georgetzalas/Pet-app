@@ -19,7 +19,6 @@ public class Shelter extends User{
     private String Region;
 
     @OneToMany(mappedBy = "shelter")
-    //@JsonManagedReference
     @JsonIgnoreProperties("shelter")
     private List<Pet> pet;
 

@@ -14,6 +14,7 @@ public class Citizen extends User{
     private String surname;
 
     @OneToMany(mappedBy = "citizen")
+    @JsonIgnoreProperties("citizen")
     private List<AdoptionRequest> adoptionRequestList;
 
     @OneToMany(mappedBy = "citizen")
