@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 //@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Vet extends User {
     @OneToMany(mappedBy = "vet")
-    @JsonIgnoreProperties("vet")
+    @JsonIgnoreProperties({"vet", "medicalHistory"})
     private List<Pet> pet;
 
     /*@OneToMany
@@ -21,7 +21,7 @@ public class Vet extends User {
     private List<Admin> admin;*/
 
     @OneToMany(mappedBy = "vet")
-    @JsonIgnoreProperties("vet")
+    @JsonIgnoreProperties({"vet", "pet"})
     private List<MedicalHistory> medicalHistory;
 
     /*@OneToMany

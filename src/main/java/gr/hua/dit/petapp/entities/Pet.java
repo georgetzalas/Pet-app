@@ -44,14 +44,14 @@ public class Pet {
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "citizenid")
     //@JsonBackReference("citizen-pet")
-    @JsonIgnoreProperties("pet")
+    @JsonIgnoreProperties({"pet", "adoptionRequestList"})
     private Citizen citizen;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="vetid")
     //@JsonBackReference("vet-pet")
-    @JsonIgnoreProperties("pet")
+    @JsonIgnoreProperties({"pet", "medicalHistory"})
     private Vet vet;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
@@ -63,12 +63,12 @@ public class Pet {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="historyid")
-    @JsonIgnoreProperties("pet")
+    //@JsonIgnoreProperties("pet")
     private MedicalHistory medicalHistory;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="requestid")
-    @JsonIgnoreProperties("pet")
+    //@JsonIgnoreProperties({"pet", "vet", "pet"})
     private AdoptionRequest adoptionRequest;
 
     public Pet(){

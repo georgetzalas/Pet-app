@@ -19,7 +19,7 @@ public class Shelter extends User{
     private String Region;
 
     @OneToMany(mappedBy = "shelter")
-    @JsonIgnoreProperties("shelter")
+    //@JsonIgnoreProperties("shelter")
     private List<Pet> pet;
 
     public Shelter(String name, String username, String email, String password, String region)
