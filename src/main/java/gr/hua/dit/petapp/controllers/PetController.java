@@ -154,12 +154,14 @@ public class PetController {
     @GetMapping("/types")
     public ResponseEntity<List<String>> getAllPetTypes() {
         List<String> types = petService.getAllPetTypes();
+        System.out.println(types);
         return ResponseEntity.ok(types);
     }
 
     @GetMapping("/regions")
     public ResponseEntity<List<String>> getAllShelterRegions() {
         List<String> regions = petService.getAllShelterRegions();
+        System.out.println(regions);
         return ResponseEntity.ok(regions);
     }
 

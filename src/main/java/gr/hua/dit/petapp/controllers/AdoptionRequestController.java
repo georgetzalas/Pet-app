@@ -51,7 +51,7 @@ public class AdoptionRequestController
         adoptionRequestService.saveAdoptionRequest(adoptionRequest);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SHELTER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAdoptionRequest(@PathVariable Integer id)
     {
