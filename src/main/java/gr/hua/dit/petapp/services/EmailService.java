@@ -84,4 +84,26 @@ public class EmailService {
 
         mailSender.send(mailMessage);
     }
+
+    @Transactional
+    public void adoptionRejected(String email) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Adoption Rejected");
+        mailMessage.setText("Sorry your adoption request was rejected");
+
+        mailSender.send(mailMessage);
+    }
+
+    @Transactional
+    public void adoptionApproved(String email) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Adoption approval");
+        mailMessage.setText("Your adoption request has been approved");
+
+        mailSender.send(mailMessage);
+    }
 }

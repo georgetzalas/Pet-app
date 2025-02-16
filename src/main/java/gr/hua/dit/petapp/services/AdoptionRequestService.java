@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,11 +19,12 @@ public class AdoptionRequestService {
 
     private AdoptionRequestRepository adoptionRequestRepository;
     private PetRepository petRepository;
-
-    public AdoptionRequestService(AdoptionRequestRepository adoptionRequestRepository, PetRepository petRepository)
+    private EmailService emailService;
+    public AdoptionRequestService(AdoptionRequestRepository adoptionRequestRepository, PetRepository petRepository, EmailService emailService)
     {
         this.adoptionRequestRepository = adoptionRequestRepository;
         this.petRepository = petRepository;
+        this.emailService = emailService;
     }
 
     // List of valid statuses
@@ -76,6 +78,18 @@ public class AdoptionRequestService {
     {
         AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
         adoptionRequest.setStatus(AdoptionStatus.APPROVED);
+        List<AdoptionRequest> allAdoptionRequests = adoptionRequestRepository.findAll();
+        List<AdoptionRequest> notApproved = new ArrayList<>();
+        for(AdoptionRequest a : allAdoptionRequests) {
+            if(a.getPet().equals(adoptionRequest.getPet()) && !a.equals(adoptionRequest))
+            {
+                notApproved.add(a);
+            }
+        }
+        for(AdoptionRequest a : notApproved) {
+            emailService.adoptionRejected(a.getCitizen().getEmail());
+        }
+        emailService.adoptionApproved(adoptionRequest.getCitizen().getEmail());
     }
 
     @Transactional
@@ -83,6 +97,8 @@ public class AdoptionRequestService {
     {
         AdoptionRequest adoptionRequest = adoptionRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
         adoptionRequest.setStatus(AdoptionStatus.REJECTED);
+        emailService.adoptionRejected(adoptionRequest.getCitizen().getEmail());
+        //deleteAdoptionRequest(adoptionRequest.getId().intValue());
     }
 
 }
