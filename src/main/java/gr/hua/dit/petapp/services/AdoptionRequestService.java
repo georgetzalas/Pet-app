@@ -88,6 +88,7 @@ public class AdoptionRequestService {
         }
         for(AdoptionRequest a : notApproved) {
             emailService.adoptionRejected(a.getCitizen().getEmail());
+            a.setStatus(AdoptionStatus.REJECTED);
         }
         emailService.adoptionApproved(adoptionRequest.getCitizen().getEmail());
     }
