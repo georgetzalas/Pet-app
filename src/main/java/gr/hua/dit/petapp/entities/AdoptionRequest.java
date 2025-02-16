@@ -1,5 +1,6 @@
 package gr.hua.dit.petapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -11,7 +12,8 @@ public class AdoptionRequest {
 
     @ManyToOne
     @JoinColumn(name = "petid")
-    @JsonIgnoreProperties({"adoptionRequest"})
+    @JsonIgnoreProperties({"adoptionRequest", "citizen"})
+    //@JsonIgnoreProperties({"adoptionRequest", "medicalHistory"}) // Ignore back references
     private Pet pet;
 
     @ManyToOne

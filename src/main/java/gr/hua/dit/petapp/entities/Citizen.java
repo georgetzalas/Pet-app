@@ -8,18 +8,16 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Citizen extends User{
     @Column
     private String surname;
 
     @OneToMany(mappedBy = "citizen")
-    //@JsonIgnoreProperties("citizen")
+    @JsonIgnoreProperties("citizen")
     private List<AdoptionRequest> adoptionRequestList;
 
     @OneToMany(mappedBy = "citizen")
-    //@JsonManagedReference
-    //@JsonIgnoreProperties("citizen")
+    @JsonIgnoreProperties("citizen")
     private List<Pet> pet;
 
     @Enumerated(EnumType.STRING)

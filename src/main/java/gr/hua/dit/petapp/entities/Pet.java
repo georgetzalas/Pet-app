@@ -18,10 +18,9 @@ public class Pet {
     private String adoptionStatus;
     @Column
     private float age;
-    /*@Lob
+    @Lob
     @Basic(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private byte[] picture;*/
+    private byte[] picture;
     @Column
     private String strPicture;
     @Column
@@ -43,32 +42,29 @@ public class Pet {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "citizenid")
-    //@JsonBackReference("citizen-pet")
     @JsonIgnoreProperties({"pet", "adoptionRequestList"})
     private Citizen citizen;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="vetid")
-    //@JsonBackReference("vet-pet")
     @JsonIgnoreProperties({"pet", "medicalHistory"})
     private Vet vet;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "shelterid")
-    //@JsonBackReference("shelter-pet")
-    @JsonIgnoreProperties("pet")
+    @JsonIgnoreProperties("pet") // Correct
     private Shelter shelter;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="historyid")
-    //@JsonIgnoreProperties("pet")
+    @JsonIgnoreProperties("pet")
     private MedicalHistory medicalHistory;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="requestid")
-    //@JsonIgnoreProperties({"pet", "vet", "pet"})
+    @JsonIgnoreProperties("pet")
     private AdoptionRequest adoptionRequest;
 
     public Pet(){
@@ -133,13 +129,13 @@ public class Pet {
         this.age = age;
     }
 
-    /*public byte[] getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
-    }*/
+    }
 
     public float getWeight() {
         return weight;

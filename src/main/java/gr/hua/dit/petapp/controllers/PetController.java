@@ -44,8 +44,8 @@ public class PetController {
     @PreAuthorize("hasRole('ROLE_SHELTER')")
     @PostMapping
     public void addPet(@RequestBody Pet pet) {
-        /*byte[] pictureBytes = Base64.getDecoder().decode(pet.getStrPicture());
-        pet.setPicture(pictureBytes);*/
+        byte[] pictureBytes = Base64.getDecoder().decode(pet.getStrPicture());
+        pet.setPicture(pictureBytes);
         pet.setStrPicture(null);
         petService.savePet(pet);
     }

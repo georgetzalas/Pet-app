@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Vet extends User {
     @OneToMany(mappedBy = "vet")
     @JsonIgnoreProperties({"vet", "medicalHistory"})
@@ -37,7 +36,7 @@ public class Vet extends User {
         super(name, username, email, password);
         this.Surname=Surname;
     }
-    
+
     public Vet(){
 
     }

@@ -1,4 +1,5 @@
 package gr.hua.dit.petapp.entities;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -7,7 +8,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class MedicalHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +15,14 @@ public class MedicalHistory {
 
     @ManyToOne
     @JoinColumn(name = "vetid")
-    @JsonIgnoreProperties({"pet", "medicalHistory"})
+    @JsonIgnoreProperties({"medicalHistory", "pet"})
     private Vet vet;
 
     @OneToOne
     @JoinColumn(name = "petid")
-    @JsonIgnoreProperties({"vet", "medicalHistory"})
+    @JsonBackReference("pet-medicalHistory")
+    //@JsonIgnoreProperties({"medicalHistory", "vet"})
+    //@JsonIgnoreProperties({"medicalHistory", "adoptionRequest"}) // Ignore back references
     private Pet pet;
 
     @Enumerated(EnumType.STRING)
