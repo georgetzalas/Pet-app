@@ -12,8 +12,8 @@ public class AdoptionRequest {
 
     @ManyToOne
     @JoinColumn(name = "petid")
-    @JsonIgnoreProperties({"adoptionRequest", "citizen"})
-    //@JsonIgnoreProperties({"adoptionRequest", "medicalHistory"}) // Ignore back references
+    //@JsonIgnoreProperties({"adoptionRequest", "citizen"})
+    @JsonIgnoreProperties({"adoptionRequest", "medicalHistory"}) // Ignore back references
     private Pet pet;
 
     @ManyToOne
