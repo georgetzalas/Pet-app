@@ -3,16 +3,14 @@ package gr.hua.dit.petapp.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 @Entity
 public class Vet extends User {
     @OneToMany(mappedBy = "vet")
-    @JsonIgnoreProperties({"vet", "medicalHistory"})
+    //@JsonIgnoreProperties({"vet", "medicalHistory"})
+    @JsonIgnore
     private List<Pet> pet;
 
     /*@OneToMany
@@ -20,7 +18,8 @@ public class Vet extends User {
     private List<Admin> admin;*/
 
     @OneToMany(mappedBy = "vet")
-    @JsonIgnoreProperties({"vet", "pet"})
+    //@JsonIgnoreProperties({"vet", "pet"})
+    @JsonIgnore
     private List<MedicalHistory> medicalHistory;
 
     /*@OneToMany

@@ -1,9 +1,6 @@
 package gr.hua.dit.petapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -13,11 +10,13 @@ public class Citizen extends User{
     private String surname;
 
     @OneToMany(mappedBy = "citizen")
-    @JsonIgnoreProperties("citizen")
+    //@JsonIgnoreProperties("citizen")
+    @JsonIgnore
     private List<AdoptionRequest> adoptionRequestList;
 
     @OneToMany(mappedBy = "citizen")
-    @JsonIgnoreProperties("citizen")
+    //@JsonIgnoreProperties("citizen")
+    @JsonIgnore
     private List<Pet> pet;
 
     @Enumerated(EnumType.STRING)

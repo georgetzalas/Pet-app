@@ -60,6 +60,7 @@ public class UserController {
         {
             return ResponseEntity.ok(new MessageResponse("No accounts found."));
         }
+        System.out.println("OKKK");
         return ResponseEntity.ok(accounts);
     }
 
