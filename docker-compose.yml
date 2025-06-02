@@ -19,7 +19,7 @@ services:
     volumes:
       - 'dslabdb:/var/lib/postgresql/data/'
   spring:
-    image: sp
+    #image: sp
     build:
       context: .
       dockerfile: Dockerfile
