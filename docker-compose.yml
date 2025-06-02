@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16
+    image: postgres:14
     expose:
       - 5432
     ports:
@@ -41,7 +41,7 @@ services:
   frontend:
     #image: front
     build:
-      context: https://github.com/georgetzalas/Pet-app-frontend#main
+      context: https://github.com/georgetzalas/Pet-app-frontend.git#main
 
       #context: git@github.com:gkoulis/ds-lab-2023-frontend.git#env
       #dockerfile: node.Dockerfile
