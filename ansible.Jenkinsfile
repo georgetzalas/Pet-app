@@ -47,9 +47,9 @@ pipeline {
             }
         }
         stage('install vue') {
-             when {
-                expression { return params.INSTALL_VUE }
-            }
+             //when {
+                //expression { return params.INSTALL_VUE }
+            //}
             steps {
                 sh '''
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
