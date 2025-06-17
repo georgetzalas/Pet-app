@@ -46,5 +46,17 @@ pipeline {
                 '''
             }
         }
+        stage('install vue') {
+             when {
+                expression { return params.INSTALL_VUE }
+            }
+            steps {
+                sh '''
+                    export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontserver ~/workspace/ansible/playbooks/vuesjs.yaml
+                '''
+            }
+        }
+
 }
 }
