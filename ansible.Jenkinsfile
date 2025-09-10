@@ -53,7 +53,7 @@ pipeline {
             steps {
                 sh '''
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontend-vm ~/workspace/ansible/playbooks/vuesjs.yaml
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontserver-vm ~/workspace/ansible/playbooks/vuesjs.yaml
                 '''
             }
         }
