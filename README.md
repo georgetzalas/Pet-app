@@ -1,3 +1,22 @@
+### Petapp Platform-Backend
+
+This repository is the backend of a collaborative full-stack application developed within a team environment.
+The Petapp platform is structured across multiple repositories, each supporting different layers of the system:
+
+- **Frontend:**  
+  https://github.com/georgetzalas/Pet-app-frontend
+
+- **Backend:**  
+  https://github.com/georgetzalas/Pet-app/tree/Evangelia
+
+- **DevOps & Automation:**  
+  https://github.com/Evangelia2/Ansible  
+
+- **Extended Frontend / DevOps Contributions:**  
+  https://github.com/Evangelia2/Pet-app-frontend  
+
+These repositories collectively support the application's development, deployment workflows, and infrastructure configuration.
+
 Θέμα εργασίας: Πλατφόρμα υιοθεσίας κατοικιδίων\
 Ονομασία εργασίας: Pet-app
 
